@@ -224,7 +224,7 @@ EXTRA_STIL = """
 .dreischritt p { margin: 0; font-size: 58px; line-height: 1.12; font-weight: 700; text-transform: uppercase; letter-spacing: -.015em; white-space: nowrap; }
 .dreischritt p span { display: block; }
 
-.zs-buehne { position: absolute; left: 80px; top: 110px; width: 1760px; aspect-ratio: 1344 / 752; }
+.zs-buehne { position: absolute; left: 150px; top: 150px; width: 1620px; aspect-ratio: 1344 / 752; }
 .zs-buehne img { --rand-x: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%); --rand-y: linear-gradient(180deg, transparent 0, #000 22%, #000 80%, transparent 100%);
   -webkit-mask-image: var(--rand-x), var(--rand-y); -webkit-mask-composite: source-in; mask-image: var(--rand-x), var(--rand-y); mask-composite: intersect; }
 .zs-buehne img { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; margin: 0 !important; max-width: none !important; max-height: none !important; }
