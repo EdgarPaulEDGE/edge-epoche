@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EDGE x Deutsche Bank</title>
+<meta name="theme-color" content="#030309">
+<!-- Nicht für Suchmaschinen: kein Index, keinen Links folgen, kein Archiv, kein Textausschnitt, keine Bildersuche.
+     Bewusst KEINE robots.txt Sperre: die würde verhindern, dass Crawler diese Anweisung überhaupt lesen. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="vendor/reveal/reveal.css">
+<style>
+/* ============================================================================
+   EDGE DIGITAL · UNTERNEHMENSPRÄSENTATION
+   Stamm: cbl-ueberblick (Raumschwarz, Galaxie, Avenir Next, Schimmer).
+   Dramaturgie: ROT und viele Ecken  >  PINK, weiche Dreiecke  >  LILA, zwei Kreise
+   >  DUNKELBLAU, einzelne Kreise  >  HELLBLAU, nur noch die Kante: die EDGE.
+   Kein box-shadow (decktape PDF Bug). Keine Emojis. Änderungen in bau.py.
+   ========================================================================== */
+
+@font-face { font-family: "Avenir Next LT"; src: url("assets/fonts/AvenirNext-Regular.ttf") format("truetype"); font-weight: 400; }
+@font-face { font-family: "Avenir Next LT"; src: url("assets/fonts/AvenirNext-Medium.ttf") format("truetype"); font-weight: 500; }
+@font-face { font-family: "Avenir Next LT"; src: url("assets/fonts/AvenirNext-DemiBold.ttf") format("truetype"); font-weight: 600; }
+@font-face { font-family: "Avenir Next LT"; src: url("assets/fonts/AvenirNext-Bold.ttf") format("truetype"); font-weight: 700; }
+
+:root {
+  --raum: #030309;
+  --weiss: #F4F6FF;
+  --w-70: rgba(244, 246, 255, 0.70);
+  --w-45: rgba(244, 246, 255, 0.45);
+  --w-25: rgba(244, 246, 255, 0.25);
+  --hairline: rgba(244, 246, 255, 0.14);
+  --purple: #C15DE6;
+  --blau: #009FF4;
+  --cyan: #00E2E2;
+  /* Schimmer: drei Stopps, pro Farbphase überschrieben */
+  --s1: var(--purple); --s2: var(--blau); --s3: var(--cyan);
+  /* Ringfarben der Teamfolie: bewusst gedämpft */
+  --ring-service: #F04452;
+  --ring-software: #86C8FF;
+  --ring-gf: #B9A2F5;
+  --font: "Avenir Next LT", "Avenir Next", Avenir, "Nunito Sans", "Segoe UI", sans-serif;
+}
+.f-rot   { --s1: #FF1F3D; --s2: #FF4B2B; --s3: #FF8A5C; }
+.f-pink  { --s1: #FF3D9A; --s2: #FF7AC3; --s3: #FFB3DC; }
+.f-lila  { --s1: #8B5CF6; --s2: #B266FF; --s3: #DDA8FF; }
+.f-dblau { --s1: #3D6BFF; --s2: #2F8BFF; --s3: #4FC3FF; }
+.f-hblau { --s1: #4FC3FF; --s2: #7FD4FF; --s3: #C4EEFF; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { background: var(--raum); font-family: var(--font); }
+.reveal-viewport { background: transparent !important; }
+
+/* ---------- Raum-Ebenen: liegen fix HINTER allen Folien ---------- */
+#kosmos { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; }
+/* Je Farbphase eine Stimmungs-Ebene. Beim Folienwechsel blendet nur die
+   Deckkraft um: so wandert die Farbe weich von Rot nach Blau. */
+.stimmung {
+  position: fixed; inset: -20%; z-index: 0; pointer-events: none; filter: blur(70px);
+  opacity: 0; transition: opacity 1.1s ease;
+}
+body[data-stimmung="neutral"] .st-neutral, body[data-stimmung="rot"] .st-rot, body[data-stimmung="pink"] .st-pink,
+body[data-stimmung="lila"] .st-lila, body[data-stimmung="dblau"] .st-dblau, body[data-stimmung="hblau"] .st-hblau { opacity: 1; }
+.st-neutral { background: radial-gradient(38% 30% at 78% 24%, rgba(0,159,244,.10), transparent 70%), radial-gradient(34% 28% at 16% 80%, rgba(193,93,230,.11), transparent 70%); }
+.st-rot   { background: radial-gradient(46% 42% at 80% 46%, rgba(255,31,61,.26), transparent 70%), radial-gradient(30% 26% at 12% 86%, rgba(255,75,43,.14), transparent 70%); }
+.st-pink  { background: radial-gradient(46% 42% at 78% 50%, rgba(255,79,163,.24), transparent 70%), radial-gradient(30% 26% at 14% 84%, rgba(255,150,210,.12), transparent 70%); }
+.st-lila  { background: radial-gradient(46% 42% at 76% 50%, rgba(139,92,246,.30), transparent 70%), radial-gradient(30% 26% at 14% 84%, rgba(193,93,230,.14), transparent 70%); }
+.st-dblau { background: radial-gradient(46% 42% at 78% 50%, rgba(47,91,255,.30), transparent 70%), radial-gradient(30% 26% at 14% 84%, rgba(20,50,200,.16), transparent 70%); }
+.st-hblau { background: radial-gradient(40% 46% at 84% 50%, rgba(127,212,255,.20), transparent 70%); }
+.vignette {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(140% 120% at 50% 42%, transparent 50%, rgba(1,1,4,.88) 100%);
+}
+
+/* ---------- Reveal-Grundgerüst ---------- */
+.reveal { font-family: var(--font); font-size: 30px; color: var(--weiss); }
+.reveal .slides { text-align: left; }
+.reveal .slides > section { padding: 0; height: 1080px; }
+.reveal .progress { color: var(--weiss); height: 4px; }
+.reveal .controls { color: var(--w-45); }
+
+.slide {
+  width: 1920px; height: 1080px; position: relative;
+  display: flex !important; flex-direction: column;
+  padding: 132px 130px 96px;
+}
+/* Formen liegen hinter dem Text, innerhalb der Folie */
+.kunst { position: absolute; inset: 0; width: 1920px; height: 1080px; pointer-events: none; }
+
+body.standbild *, body.standbild *::before, body.standbild *::after { animation-duration: .001s !important; animation-delay: 0s !important; transition: none !important; }
+body.standbild .reveal .controls, body.standbild .reveal .progress { display: none !important; }
+
+/* ---------- Typografie ---------- */
+h1, h2, h3 { margin: 0; font-family: var(--font); }
+.hero {
+  font-size: 150px; line-height: 1.08; letter-spacing: -.025em; font-weight: 700;
+  text-transform: uppercase; margin: 0;
+}
+.headline {
+  font-size: 80px; line-height: 1.12; letter-spacing: -.02em; font-weight: 700;
+  text-transform: uppercase; margin: 0 0 20px; flex-shrink: 0;
+}
+.schimmer {
+  background: linear-gradient(96deg, var(--s1), var(--s2) 52%, var(--s3));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  /* Unterlängen und das Auslassungszeichen sonst angeschnitten */
+  padding: 0 .06em .08em 0;
+}
+.lead { color: var(--w-70); font-size: 36px; line-height: 1.5; margin: 0; }
+.label { font-weight: 600; font-size: 20px; letter-spacing: .16em; text-transform: uppercase; color: var(--w-45); margin: 0; }
+
+/* ---------- Übergangsfolien: ein Satz, sehr groß, links ---------- */
+.slide.uebergang { justify-content: center; }
+.slide.uebergang::before {
+  /* Dunkler Schleier hinter der Schrift, damit sie über den Formen sicher lesbar bleibt */
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(3,3,9,.92) 0%, rgba(3,3,9,.70) 42%, rgba(3,3,9,0) 72%);
+}
+.slide.uebergang .hero { position: relative; }
+
+/* ---------- Deckblatt ---------- */
+.titel-logo { width: 640px; height: auto; display: block; }
+
+/* ---------- Folie 3: sechs Baustellen, kantig ---------- */
+.raster-rot { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 26px; flex: 1; margin-top: 26px; min-height: 0; }
+.kachel-rot {
+  /* Abgeschnittene Ecke statt Rundung: die rote Phase besteht aus Kanten */
+  --schnitt: 34px; padding: 1.5px; min-height: 0;
+  background: linear-gradient(140deg, rgba(255,31,61,.95), rgba(255,75,43,.30) 55%, rgba(255,31,61,.55));
+  clip-path: polygon(0 0, calc(100% - var(--schnitt)) 0, 100% var(--schnitt), 100% 100%, var(--schnitt) 100%, 0 calc(100% - var(--schnitt)));
+}
+.kachel-rot > div {
+  height: 100%; padding: 34px 38px 30px; display: flex; flex-direction: column;
+  background: linear-gradient(160deg, #14070b, #0a060c 60%);
+  clip-path: polygon(0 0, calc(100% - var(--schnitt)) 0, 100% var(--schnitt), 100% 100%, var(--schnitt) 100%, 0 calc(100% - var(--schnitt)));
+}
+/* Icon auf Schwarz gerendert: screen blendet das Schwarz weg, nur das Leuchten bleibt.
+   Fest oben rechts verankert, der Satz hält rechts Abstand. Kein float: lange Titel rutschen sonst darunter. */
+.kr-kopf { display: block; position: relative; }
+.kr-icon { position: absolute; top: -18px; right: -20px; width: 156px; height: 156px; mix-blend-mode: screen; display: block; margin: 0; }
+.kr-titel { margin: 0 0 16px; font-size: 23px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #FF5468; }
+.kr-satz { margin: 0; padding-right: 118px; font-size: 28px; line-height: 1.32; font-weight: 600; color: var(--weiss); }
+.kr-tags { margin: auto 0 0; padding-top: 14px; font-size: 20px; color: var(--w-45); white-space: nowrap; }
+
+/* ---------- Folie 5: Collage, randlos über die ganze Folie ---------- */
+.collage { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
+
+/* Dunkler Schleier nur in den linken Ecken: dort sitzen Logo und Seitenzahl, das Foto darunter ist teils hell */
+.collage-schleier { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(420px 190px at 0 0, rgba(3,3,9,.78), transparent 100%), radial-gradient(240px 150px at 0 100%, rgba(3,3,9,.78), transparent 100%); }
+
+/* ---------- Folie 7: Referenzwand ---------- */
+.slide.wand { padding: 116px 110px 56px; }
+.logos { display: grid; align-items: center; justify-items: center; flex-shrink: 0; }
+.logos > div { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.logos img { display: block; margin: 0; width: auto; height: auto; object-fit: contain; }
+.logos.gross { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 126px; column-gap: 40px; }
+.logos.gross img { max-width: 250px; max-height: 96px; opacity: .96; }
+.logos.klein { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 0; }
+.logos.klein > div { width: calc(100% / var(--spalten, 10)); height: 88px; padding: 0 13px; }
+.logos.klein img { max-width: 100%; max-height: 58px; opacity: .84; }
+.trenner { border: none; height: 1px; width: 100%; flex-shrink: 0; margin: 22px 0 18px; background: linear-gradient(90deg, transparent, rgba(178,102,255,.7), transparent); }
+.namen { margin: 20px 0 0; text-align: center; font-size: 21px; line-height: 1.6; color: var(--w-45); font-weight: 500; flex-shrink: 0; }
+/* Preise: bewusst offen gesetzt, ohne Kästen, Rahmen oder Flächen. Nur Name, Logo und Luft. */
+.preise { margin-top: auto; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.preise .label { color: var(--w-45); }
+.preis-reihe { display: flex; align-items: center; justify-content: center; gap: 60px; }
+.preis { display: flex; align-items: center; gap: 11px; color: #C9A6FF; }
+.preis b { font-size: 20px; font-weight: 600; color: var(--weiss); white-space: nowrap; }
+.preis img { height: 23px; width: auto; max-width: 170px; opacity: .8; object-fit: contain; display: block; margin: 0 0 0 4px !important; }
+.preis img[src*="socialhackathon"], .preis img[src*="lnpreis"] { height: 38px; }
+.preis img[src*="sparkasse"] { height: 32px; }
+
+/* ---------- Folie 9: Team. Ruhig halten, die Ringe tragen die Farbe ---------- */
+.slide.team { flex-direction: row !important; padding: 108px 80px 56px; gap: 0; }
+.seite { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; }
+.mitte { padding-top: 56px !important; width: 400px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 0 20px; }
+.seiten-titel { margin: 0 0 26px; height: 30px; line-height: 30px; font-size: 25px; font-weight: 600; color: var(--w-70); text-align: center; }
+.person { margin: 0; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.rund {
+  --ring: var(--w-25); position: relative; width: 150px; height: 150px; border-radius: 50%;
+  border: 4px solid var(--ring);
+  /* Glasscheibe wie in der SoulByte Schulung: verschiedene Ursprungsfotos sitzen so in derselben Bildwelt */
+  background: radial-gradient(75% 70% at 50% 12%, rgba(244,246,255,.10), transparent 62%), radial-gradient(80% 80% at 50% 100%, color-mix(in srgb, var(--ring) 16%, transparent), transparent 60%), rgba(12,16,30,.86);
+}
+.rund::before {
+  /* Glow ohne box-shadow: weicher Farbschein hinter dem Kreis */
+  content: ""; position: absolute; inset: -22px; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, color-mix(in srgb, var(--ring) 42%, transparent) 46%, transparent 70%);
+}
+.rund img, .rund .leer { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; margin: 0; }
+.rund img { object-fit: cover; object-position: center bottom; display: block; }
+.person.gross .rund { width: 214px; height: 214px; border-width: 5px; }
+.person.gf .rund { width: 214px; height: 214px; border-width: 5px; }
+.person figcaption { margin-top: 12px; display: flex; flex-direction: column; gap: 2px; }
+.person figcaption b { font-size: 25px; font-weight: 700; color: var(--weiss); }
+.person figcaption span { font-size: 18px; line-height: 1.25; color: var(--w-45); max-width: 176px; min-height: 45px; }
+.person.gross figcaption b { font-size: 34px; }
+.person.gross figcaption span, .person.gf figcaption span { font-size: 21px; max-width: none; min-height: 0; color: var(--w-70); }
+.person.gf figcaption b { font-size: 34px; }
+.service .rund { --ring: var(--ring-service); }
+.software .rund { --ring: var(--ring-software); }
+.gf .rund { --ring: var(--ring-gf); }
+/* Gehört nicht zu uns: schwarzer Ring, kein Glow, leicht entsättigt */
+.fremd .rund { --ring: #000; border-color: #000; outline: 1px solid rgba(244,246,255,.16); }
+.fremd .rund::before { display: none; }
+.fremd .rund img { filter: saturate(.55) brightness(.92); }
+.person.fehlt .rund { border-style: dashed; }
+.person.fehlt .leer { display: grid; place-items: center; font-size: 46px; font-weight: 700; color: var(--w-25); }
+.reihe { display: flex; justify-content: center; gap: 26px; margin-top: 16px; }
+.punkte { list-style: none; margin: 16px 0 0; padding: 0; width: 100%; max-width: 640px; }
+.punkte li { position: relative; padding: 6px 0 6px 28px; font-size: 22.5px; line-height: 1.3; white-space: nowrap; color: var(--w-70); border-top: 1px solid var(--hairline); margin: 0; }
+.punkte li:last-child { border-bottom: 1px solid var(--hairline); }
+.punkte li::before { content: ""; position: absolute; left: 4px; top: 16px; width: 9px; height: 9px; border-radius: 50%; }
+.service .punkte li::before { background: var(--ring-service); }
+.software .punkte li::before { background: var(--ring-software); }
+.gag { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.gag-text { margin: 16px 0 0; font-size: 20px; line-height: 1.45; color: var(--w-45); }
+.gag-text b { color: var(--w-70); font-weight: 600; }
+
+/* ---------- Folie 10: Ende ---------- */
+.slide.ende { justify-content: center; padding-right: 700px; padding-bottom: 230px; }
+.slide.ende .hero { font-size: 116px; white-space: nowrap; }
+.slide.ende .lead { margin-top: 34px; max-width: 900px; }
+.kontakt { position: absolute; left: 130px; bottom: 84px; display: flex; align-items: center; gap: 36px; }
+.kontakt img { height: 58px; width: auto; margin: 0; display: block; }
+.kontakt p { margin: 0; font-size: 34px; line-height: 1.35; font-weight: 600; color: #fff; border-left: 1px solid var(--hairline); padding-left: 36px; }
+
+/* ---------- Chrome (fixe Overlays) ---------- */
+.chrome { position: fixed; z-index: 20; pointer-events: none; transition: opacity .3s; }
+.chrome-edge { top: calc(var(--folie-oben, 0px) + 34px * var(--folie-skala, 1)); left: calc(var(--folie-links, 0px) + 56px * var(--folie-skala, 1)); }
+.chrome-edge img { height: calc(50px * var(--folie-skala, 1)); display: block; }
+.chrome-num {
+  bottom: calc(var(--folie-unten, 0px) + 36px * var(--folie-skala, 1)); left: calc(var(--folie-links, 0px) + 60px * var(--folie-skala, 1));
+  font-weight: 600; font-size: calc(21px * var(--folie-skala, 1)); letter-spacing: .12em; color: var(--w-45);
+}
+body.chrome-aus .chrome-edge, body.chrome-aus .chrome-num { opacity: 0; }
+body.chrome-zahl .chrome-edge { opacity: 0; }
+
+/* ============================================================================
+   HOCHKANT (Handy im Hochformat). Schaltet sich per JS ein: body.hochkant, Bühne 1080 x 1920.
+   Das Handy zeigt diese Bühne auf rund 36 Prozent verkleinert. Lesetext braucht hier deshalb
+   mindestens 34px, sonst wird er am Gerät kleiner als 12px. Dichte Folien (.rollbar) scrollen in sich.
+   ========================================================================== */
+.collage-hoch { display: none; }
+body.hochkant .reveal .slides > section { height: 1920px; }
+body.hochkant .slide { width: 1080px; height: 1920px; padding: 190px 70px 130px; }
+body.hochkant .slide.rollbar { overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+body.hochkant .slide.rollbar > * { flex-shrink: 0; }
+/* Gescrollter Inhalt blendet unter Logo und Seitenzahl weich aus, statt darunter durchzulaufen */
+body.hochkant .slide.rollbar { -webkit-mask-image: linear-gradient(180deg, transparent 0, transparent 110px, #000 185px, #000 calc(100% - 120px), transparent calc(100% - 50px)); mask-image: linear-gradient(180deg, transparent 0, transparent 110px, #000 185px, #000 calc(100% - 120px), transparent calc(100% - 50px)); }
+body.hochkant .kunst { width: 1080px; height: 1920px; }
+body.hochkant .hero { font-size: 94px; }
+body.hochkant .f-lila .hero, body.hochkant .f-dblau .hero { font-size: 76px; }
+body.hochkant .headline { font-size: 70px; }
+body.hochkant .label { font-size: 28px; }
+body.hochkant .lead { font-size: 44px; }
+body.hochkant .slide.uebergang { justify-content: flex-start; padding-top: 330px; }
+body.hochkant .slide.uebergang::before { background: linear-gradient(180deg, rgba(3,3,9,.92) 0%, rgba(3,3,9,.62) 34%, rgba(3,3,9,0) 58%); }
+body.hochkant .titel-logo { width: 780px; }
+body.hochkant .kante { inset: auto; left: -560px; top: 840px; width: 1920px; height: 1080px; }
+body.hochkant section[data-chrome="aus"] .slide { justify-content: flex-start !important; padding-top: 420px; }
+/* Folie 3 */
+body.hochkant .raster-rot { display: flex; flex-direction: column; gap: 26px; flex: none; margin-top: 34px; }
+body.hochkant .kachel-rot > div { padding: 40px 44px 36px; }
+body.hochkant .kr-titel { font-size: 31px; }
+body.hochkant .kr-satz { font-size: 41px; padding-right: 170px; }
+body.hochkant .kr-tags { font-size: 28px; white-space: normal; padding-top: 22px; }
+body.hochkant .kr-icon { width: 190px; height: 190px; }
+/* Folie 5 */
+body.hochkant .collage { display: none; }
+body.hochkant .collage-hoch { display: block; position: absolute; inset: 0; }
+body.hochkant .collage-hoch > div { height: 960px; background-image: url("assets/collage/collage.jpg"); background-size: 2160px auto; background-repeat: no-repeat; }
+/* Folie 7 */
+body.hochkant .slide.wand { padding: 190px 60px 130px; }
+body.hochkant .logos.gross { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 178px; column-gap: 34px; }
+body.hochkant .logos.gross img { max-width: 290px; max-height: 128px; }
+body.hochkant .logos.klein > div { width: 33.333%; height: 138px; padding: 0 22px; }
+body.hochkant .logos.klein img { max-height: 92px; }
+body.hochkant .preise { margin-top: 60px; gap: 30px; }
+body.hochkant .preis-reihe { flex-direction: column; gap: 34px; }
+body.hochkant .preis b { font-size: 36px; white-space: normal; text-align: center; }
+body.hochkant .preis img { height: 46px; max-width: 300px; }
+body.hochkant .preis img[src*="socialhackathon"], body.hochkant .preis img[src*="lnpreis"] { height: 74px; }
+body.hochkant .preis img[src*="sparkasse"] { height: 64px; }
+/* Folie 9: erst Emre, dann Service, dann Software, zum Schluss der Gag */
+body.hochkant .slide.team { flex-direction: column !important; align-items: center; padding: 190px 60px 130px; }
+body.hochkant .mitte { display: contents; }
+body.hochkant .person.gf { order: -2; }
+body.hochkant .gag { order: 99; margin-top: 90px; }
+body.hochkant .seite { flex: none; width: 100%; margin-top: 90px; }
+body.hochkant .seiten-titel { font-size: 40px; height: auto; line-height: 1.3; margin-bottom: 36px; }
+body.hochkant .rund { width: 250px; height: 250px; border-width: 6px; }
+body.hochkant .person.gross .rund, body.hochkant .person.gf .rund { width: 360px; height: 360px; border-width: 7px; }
+body.hochkant .person figcaption b { font-size: 40px; }
+body.hochkant .person figcaption span { font-size: 29px; max-width: 290px; min-height: 0; }
+body.hochkant .person.gross figcaption b, body.hochkant .person.gf figcaption b { font-size: 52px; }
+body.hochkant .person.gross figcaption span, body.hochkant .person.gf figcaption span { font-size: 34px; }
+body.hochkant .reihe { gap: 40px; margin-top: 44px; }
+body.hochkant .punkte { max-width: none; margin-top: 44px; }
+body.hochkant .punkte li { font-size: 35px; white-space: normal; padding: 16px 0 16px 44px; }
+body.hochkant .punkte li::before { top: 34px; width: 14px; height: 14px; }
+body.hochkant .gag-text { font-size: 33px; }
+/* Folie 10 */
+body.hochkant .slide.ende { justify-content: flex-start; padding: 330px 70px 0; }
+body.hochkant .slide.ende .hero { font-size: 100px; }
+body.hochkant .slide.ende .lead { max-width: none; }
+body.hochkant .kontakt { left: 70px; bottom: 170px; flex-direction: column; align-items: flex-start; gap: 30px; }
+body.hochkant .kontakt img { height: 84px; }
+body.hochkant .kontakt p { border-left: none; padding-left: 0; font-size: 46px; }
+/* Logo und Seitenzahl */
+body.hochkant .chrome-edge img { height: calc(64px * var(--folie-skala, 1)); }
+body.hochkant .chrome-num { font-size: calc(26px * var(--folie-skala, 1)); }
+
+/* ---------- EDGE x Deutsche Bank: Zusatzstil ---------- */
+.titel-duo { display: flex; align-items: center; gap: 70px; }
+.titel-duo .titel-logo { width: 560px; }
+.titel-duo .mal { font-size: 90px; font-weight: 400; color: var(--w-45); line-height: 1; }
+.titel-duo .db-logo { height: 210px; width: auto; display: block; margin: 0; }
+
+.dreischritt { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 50px; margin-top: auto; margin-bottom: auto; }
+.dreischritt p { margin: 0; font-size: 58px; line-height: 1.12; font-weight: 700; text-transform: uppercase; letter-spacing: -.015em; white-space: nowrap; }
+.dreischritt p span { display: block; }
+
+.zs-buehne { position: absolute; left: 80px; top: 110px; width: 1760px; aspect-ratio: 1344 / 752; }
+.zs-buehne img { --rand-x: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%); --rand-y: linear-gradient(180deg, transparent 0, #000 22%, #000 80%, transparent 100%);
+  -webkit-mask-image: var(--rand-x), var(--rand-y); -webkit-mask-composite: source-in; mask-image: var(--rand-x), var(--rand-y); mask-composite: intersect; }
+.zs-buehne img { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; margin: 0 !important; max-width: none !important; max-height: none !important; }
+.zs-punkt { position: absolute; top: calc(var(--linie) + 9%); transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.zs-punkt b { display: block; font-size: 23px; font-weight: 700; letter-spacing: .01em; text-transform: uppercase; }
+.zs-punkt span { display: block; font-size: 19px; color: var(--w-45); margin-top: 6px; }
+.slide.zeitstrahl { justify-content: flex-start; }
+.slide.zeitstrahl .headline { position: relative; }
+
+.kurve { width: 100%; height: auto; margin-top: 30px; overflow: visible; }
+.kurve .jahre text { font-size: 24px; fill: rgba(244,246,255,.45); font-family: var(--font); }
+.kurve .kurven-name { font-size: 30px; font-weight: 700; font-family: var(--font); }
+.kurve .kurven-name.ki { fill: #7FD4FF; }
+.kurve .kurven-name.moore { fill: rgba(244,246,255,.7); }
+.kurve .linie { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.kurve .kurven-name { opacity: 0; }
+.reveal section.present .kurve .linie.moore { animation: zeichnen 2.4s .3s ease-out forwards; }
+.reveal section.present .kurve .linie.ki { animation: zeichnen 1.6s 1.2s ease-in forwards; }
+.reveal section.present .kurve .kurven-name.moore { animation: auftauchen .6s 2.5s forwards; }
+.reveal section.present .kurve .kurven-name.ki { animation: auftauchen .6s 2.8s forwards; }
+body.standbild .kurve .linie { stroke-dashoffset: 0; }
+body.standbild .kurve .kurven-name { opacity: 1; }
+@keyframes zeichnen { to { stroke-dashoffset: 0; } }
+@keyframes auftauchen { to { opacity: 1; } }
+
+.hero.frage { font-size: 112px; max-width: 1500px; }
+
+/* Hochkant (Handy) */
+body.hochkant .titel-duo { flex-direction: column; gap: 40px; align-items: flex-start; }
+body.hochkant .titel-duo .titel-logo { width: 620px; }
+body.hochkant .dreischritt { grid-template-columns: 1fr; gap: 90px; }
+body.hochkant .dreischritt p { font-size: 70px; white-space: normal; }
+body.hochkant .zs-buehne { width: 1080px; left: 0; top: 640px; }
+body.hochkant .zs-punkt b { font-size: 26px; letter-spacing: 0; }
+body.hochkant .zs-punkt span { display: none; }
+body.hochkant .zs-punkt:nth-child(odd of .zs-punkt) { top: calc(var(--linie) - 22%); }
+body.hochkant .hero.frage { font-size: 80px; }
+</style>
+</head>
+<body data-stimmung="neutral">
+
+<canvas id="kosmos"></canvas>
+<div class="stimmung st-neutral"></div><div class="stimmung st-rot"></div><div class="stimmung st-pink"></div>
+<div class="stimmung st-lila"></div><div class="stimmung st-dblau"></div><div class="stimmung st-hblau"></div>
+<div class="vignette"></div>
+
+<div class="chrome chrome-edge"><img src="assets/logos/edge-logo-white.png" alt="EDGE Digital"></div>
+<div class="chrome chrome-num" id="chrome-num"></div>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ============ 1: DECKBLATT ============ -->
+<section data-chrome="aus" data-stimmung="neutral">
+  <div class="kunst kante" aria-hidden="true">
+  <div style="position:absolute;inset:0;background:radial-gradient(circle at 1640px 540px, #030309 0, #030309 637px, transparent 640px);"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom, transparent 3%, #FF1F3D 18%, #FF4FA3 37%, #A855F7 53%, #2F5BFF 68%, #7FD4FF 82%, transparent 97%);-webkit-mask-image:radial-gradient(circle at 1640px 540px, transparent 0, transparent 637px, rgba(0,0,0,.95) 639px, #000 641px, rgba(0,0,0,.62) 645px, rgba(0,0,0,.34) 664px, rgba(0,0,0,.16) 710px, rgba(0,0,0,.06) 790px, transparent 900px);mask-image:radial-gradient(circle at 1640px 540px, transparent 0, transparent 637px, rgba(0,0,0,.95) 639px, #000 641px, rgba(0,0,0,.62) 645px, rgba(0,0,0,.34) 664px, rgba(0,0,0,.16) 710px, rgba(0,0,0,.06) 790px, transparent 900px);"></div>
+</div>
+  <div class="slide" style="justify-content:center;">
+    <div class="titel-duo">
+      <img class="titel-logo" src="assets/logos/edge-logo-white.png" alt="EDGE Digital">
+      <span class="mal">×</span>
+      <img class="db-logo" src="assets/logos/ref-deutschebank.png" alt="Deutsche Bank" width="240" height="240">
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2: COLLAGE ============ -->
+<section class="f-pink" data-stimmung="pink">
+  <img class="collage" src="assets/collage/collage.jpg" alt="EDGE unterwegs: Vorträge, Preise, Kunden, Team" width="2560" height="1440">
+  <div class="collage-hoch"><div style="background-position:left center;"></div><div style="background-position:right center;"></div></div>
+  <div class="collage-schleier"></div>
+</section>
+
+<!-- ============ 3: REFERENZEN ============ -->
+<section class="f-lila" data-stimmung="lila">
+  <div class="slide wand rollbar" data-prevent-swipe>
+    <div class="logos gross"><div><img src="assets/logos/ref-sparkasse.png" alt="Sparkasse zu Lübeck" width="547" height="240"></div><div><img src="assets/logos/ref-ihk.png" alt="IHK zu Lübeck" width="324" height="96"></div><div><img src="assets/logos/ref-staatskanzlei.png" alt="Staatskanzlei Schleswig-Holstein" width="640" height="94"></div><div><img src="assets/logos/ref-hansestadt.png" alt="Hansestadt Lübeck" width="237" height="240"></div><div><img src="assets/logos/ref-ln.png" alt="Lübecker Nachrichten" width="188" height="188"></div><div><img src="assets/logos/ref-collins.png" alt="Collins Aerospace" width="640" height="110"></div><div><img src="assets/logos/ref-deutschebank.png" alt="Deutsche Bank" width="240" height="240"></div><div><img src="assets/logos/ref-wfluebeck.png" alt="Wirtschaftsförderung Lübeck" width="441" height="240"></div><div><img src="assets/logos/ref-wfl.png" alt="WFL Herzogtum Lauenburg" width="410" height="240"></div><div><img src="assets/logos/ref-hansebelt.png" alt="HanseBelt" width="640" height="229"></div><div><img src="assets/logos/ref-exrohr.png" alt="ExRohr" width="640" height="179"></div><div><img src="assets/logos/ref-cbl.png" alt="Convention Bureau Lübeck" width="498" height="240"></div><div><img src="assets/logos/ref-ltm.png" alt="Lübeck Travemünde Marketing" width="307" height="240"></div><div><img src="assets/logos/ref-ksk.png" alt="Kreissparkasse Herzogtum Lauenburg" width="640" height="160"></div><div><img src="assets/logos/ref-hamann.png" alt="Hugo Hamann Firmengruppe" width="640" height="192"></div><div><img src="assets/logos/ref-diakonie.png" alt="Diakonie Nord Nord Ost" width="611" height="240"></div><div><img src="assets/logos/ref-norva24.png" alt="Norva24" width="640" height="108"></div><div><img src="assets/logos/ref-vs.png" alt="Vereinigte Stadtwerke" width="379" height="240"></div></div>
+    <hr class="trenner">
+    <div class="logos klein" style="--spalten:11;"><div><img src="assets/logos/ref-wks.png" alt="WKS Kreis Segeberg" width="452" height="193"></div><div><img src="assets/logos/ref-swm.png" alt="Wirtschaftsförderung Südwestmecklenburg" width="201" height="134"></div><div><img src="assets/logos/ref-digitalesmv.png" alt="digitales MV" width="263" height="215"></div><div><img src="assets/logos/ref-kish.png" alt="KI.SH" width="640" height="196"></div><div><img src="assets/logos/ref-behne.png" alt="Behne" width="356" height="240"></div><div><img src="assets/logos/ref-segler.png" alt="Kommunaltechnik Segler" width="640" height="143"></div><div><img src="assets/logos/ref-falkenhagen.png" alt="Rohrreinigung Falkenhagen" width="640" height="149"></div><div><img src="assets/logos/ref-kt.png" alt="Kanal Türpe" width="640" height="103"></div><div><img src="assets/logos/ref-willidamm.png" alt="Willi Damm" width="200" height="142"></div><div><img src="assets/logos/ref-buhck.png" alt="Buhck Gruppe" width="640" height="125"></div><div><img src="assets/logos/ref-mayer.png" alt="MAYER" width="146" height="146"></div><div><img src="assets/logos/ref-inlingua.png" alt="inlingua" width="640" height="139"></div><div><img src="assets/logos/ref-mediamagneten.png" alt="mediamagneten" width="640" height="173"></div><div><img src="assets/logos/ref-sterac.png" alt="STERAC" width="640" height="163"></div><div><img src="assets/logos/ref-elvis.png" alt="ELVIS Eis" width="443" height="240"></div><div><img src="assets/logos/ref-aerztekammer.png" alt="Ärztekammer Schleswig-Holstein" width="538" height="240"></div><div><img src="assets/logos/ref-apart.png" alt="APART" width="640" height="146"></div><div><img src="assets/logos/ref-baumstark.png" alt="Baumstark Pflege" width="209" height="240"></div><div><img src="assets/logos/ref-cordula.png" alt="Cordula Ahrens" width="222" height="240"></div><div><img src="assets/logos/ref-vfb.png" alt="VfB Lübeck" width="200" height="200"></div><div><img src="assets/logos/ref-easyfitness.png" alt="EasyFitness" width="640" height="178"></div><div><img src="assets/logos/ref-gogroon.png" alt="GO GRØØN" width="640" height="170"></div><div><img src="assets/logos/ref-it4b.png" alt="IT4B Digital Summit" width="640" height="64"></div><div><img src="assets/logos/ref-witzleben.png" alt="Jan von Witzleben" width="329" height="240"></div><div><img src="assets/logos/ref-kitzmann.png" alt="Kitzmann" width="640" height="208"></div><div><img src="assets/logos/ref-lachclash.png" alt="Lach Clash" width="239" height="240"></div><div><img src="assets/logos/ref-thomar.png" alt="ThoMar" width="324" height="215"></div><div><img src="assets/logos/ref-praktikum-hansebelt.png" alt="Praktikum HanseBelt" width="366" height="240"></div><div><img src="assets/logos/ref-thluebeck.png" alt="TH Lübeck" width="474" height="165"></div><div><img src="assets/logos/ref-egoh.png" alt="EGOH" width="640" height="200"></div><div><img src="assets/logos/ref-geesthacht.png" alt="Stadtwerke Geesthacht" width="528" height="240"></div><div><img src="assets/logos/ref-digitalfueralle.png" alt="Digital für alle" width="440" height="240"></div><div><img src="assets/logos/ref-rotary.png" alt="Rotary Club" width="638" height="240"></div><div><img src="assets/logos/ref-k2konzept.png" alt="K2Konzept" width="640" height="79"></div><div><img src="assets/logos/ref-energiecluster.png" alt="Energiecluster" width="640" height="127"></div><div><img src="assets/logos/ref-hdd.png" alt="Haus des Döners" width="640" height="178"></div><div><img src="assets/logos/ref-sprungtuch.png" alt="Sprungtuch" width="239" height="240"></div><div><img src="assets/logos/ref-tq.png" alt="TQ" width="240" height="240"></div><div><img src="assets/logos/ref-css.png" alt="Change School Summit" width="464" height="240"></div><div><img src="assets/logos/ref-hansefriseur.png" alt="HanseFriseur" width="232" height="240"></div><div><img src="assets/logos/ref-epunkt.png" alt="Forum Ehrenamt" width="134" height="47"></div><div><img src="assets/logos/ref-vfl.png" alt="VfL Lübeck-Schwartau" width="197" height="240"></div></div>
+    <div class="preise"><span class="label">Preise &amp; Nominierungen</span><div class="preis-reihe"><span class="preis"><b>Existenzgründerpreis</b><img src="assets/logos/ref-lnpreis.png" alt=""></span><span class="preis"><b>Gründerpreis der Sparkasse zu Lübeck</b><img src="assets/logos/ref-sparkasse.png" alt=""></span><span class="preis"><b>Social Hackathon</b><img src="assets/logos/ref-socialhackathon.png" alt=""></span><span class="preis"><b>Überflieger Wettbewerb</b><img src="assets/logos/ref-startupsh.png" alt=""></span></div></div>
+  </div>
+</section>
+
+<!-- ============ 4: TEAM ============ -->
+<section data-stimmung="neutral">
+  <div class="slide team rollbar" data-prevent-swipe>
+    <div class="seite service">
+  <p class="seiten-titel">„KI &amp; Daten für Ihre Firma nutzen“</p>
+  <figure class="person service gross">
+  <div class="rund"><img src="assets/team/eddie.png" alt="Eddie" width="720" height="720"></div>
+  <figcaption><b>Eddie</b><span>Head of AI-Services</span></figcaption>
+</figure>
+  <div class="reihe"><figure class="person service">
+  <div class="rund"><img src="assets/team/chakira.png" alt="Chakira" width="720" height="720"></div>
+  <figcaption><b>Chakira</b><span>AI Content Creatorin</span></figcaption>
+</figure><figure class="person service">
+  <div class="rund"><img src="assets/team/sohal.png" alt="Sohal" width="720" height="720"></div>
+  <figcaption><b>Sohal</b><span>AI Network Expertin</span></figcaption>
+</figure><figure class="person service">
+  <div class="rund"><img src="assets/team/jorge.png" alt="Jorge" width="720" height="720"></div>
+  <figcaption><b>Jorge</b><span>Data Scientist</span></figcaption>
+</figure></div>
+  <ul class="punkte"><li>Fachkräftesicherung (+2000 Bewerbungen allein in 2025)</li><li>Kundengewinnung (wöchentliche Neukundengespräche)</li><li>Digitale Sichtbarkeit (Tausende Follower aufgebaut)</li><li>Zielgruppenanalysen mit Millionen von Datenpunkten</li><li>Schulungen, Workshops und Webinare für Ihr Team</li><li>Websites, Werbekampagnen, Content und vieles mehr</li></ul>
+</div>
+    <div class="mitte">
+      <figure class="person gf gross">
+  <div class="rund"><img src="assets/team/emre.png" alt="Emre" width="720" height="720"></div>
+  <figcaption><b>Emre</b><span>Geschäftsführer</span></figcaption>
+</figure>
+    </div>
+    <div class="seite software">
+  <p class="seiten-titel">„KI in Ihrer Firma implementieren“</p>
+  <figure class="person software gross">
+  <div class="rund"><img src="assets/team/dom.png" alt="Dom" width="720" height="720"></div>
+  <figcaption><b>Dom</b><span>Head of AI-Software</span></figcaption>
+</figure>
+  <div class="reihe"><figure class="person software">
+  <div class="rund"><img src="assets/team/mats.png" alt="Mats" width="720" height="720"></div>
+  <figcaption><b>Mats</b><span>Frontend Entwickler</span></figcaption>
+</figure><figure class="person software">
+  <div class="rund"><img src="assets/team/saroj.png" alt="Saroj" width="720" height="720"></div>
+  <figcaption><b>Saroj</b><span>Backend Entwickler</span></figcaption>
+</figure><figure class="person software">
+  <div class="rund"><img src="assets/team/nadira.png" alt="Nadira" width="720" height="720"></div>
+  <figcaption><b>Nadira</b><span>AI und Software Engineer</span></figcaption>
+</figure></div>
+  <ul class="punkte"><li>KI aus Deutschland, für Deutschland</li><li>Datenschutzkonforme KI</li><li>Telefon-KI: rund um die Uhr erreichbar für Ihre Kunden</li><li>Website Chatbots für Ihre Kunden</li><li>Schnittstellen zu all Ihren Tools</li><li>KI-Workflows in Ihrer Firma implementieren</li></ul>
+</div>
+  </div>
+</section>
+
+<!-- ============ 5: BEDIENEN, KOMMUNIZIEREN, BEGEGNEN ============ -->
+<section class="f-rot" data-stimmung="rot">
+  <div class="slide">
+    <div class="dreischritt"><p class="fragment"><span>Wir</span><span class="schimmer">bedienten</span><span>Technologie.</span></p><p class="fragment"><span>Wir</span><span class="schimmer">kommunizierten</span><span>mit Technologie.</span></p><p class="fragment"><span>Jetzt</span><span class="schimmer">begegnen</span><span>wir Technologie.</span></p></div>
+  </div>
+</section>
+
+<!-- ============ 6: ZEITSTRAHL ============ -->
+<section data-stimmung="neutral">
+  <div class="zs-buehne" style="--linie:52.3%;">
+    <img src="assets/illu/zeitstrahl.png" alt="Von Faustkeil und Feuer bis KI" width="1344" height="752">
+    <div class="zs-punkt" style="left:6.6%;"><b>Faustkeil &amp; Feuer</b><span>vor 2,5 Mio. Jahren</span></div><div class="zs-punkt" style="left:18.6%;"><b>Schrift</b><span>um 3000 v. Chr.</span></div><div class="zs-punkt" style="left:30.6%;"><b>Buchdruck</b><span>um 1450</span></div><div class="zs-punkt" style="left:43.2%;"><b>Dampfmaschine</b><span>um 1760</span></div><div class="zs-punkt" style="left:56.3%;"><b>Computer</b><span>ab 1940</span></div><div class="zs-punkt" style="left:68.5%;"><b>Smartphone</b><span>2007</span></div><div class="zs-punkt" style="left:80.3%;"><b>Avatare</b><span>ab 2020</span></div><div class="zs-punkt" style="left:92.7%;"><b>KI</b><span>heute</span></div>
+  </div>
+  <div class="slide zeitstrahl">
+    <h2 class="headline">Von der Steinzeit <span class="schimmer">bis heute.</span></h2>
+  </div>
+</section>
+
+<!-- ============ 7: KURVE ============ -->
+<section class="f-dblau" data-stimmung="dblau">
+  <div class="slide">
+    <h2 class="headline">Moore's Law gegen <span class="schimmer">KI.</span></h2>
+    <svg class="kurve" viewBox="0 0 1520 640" aria-label="Moore's Law gegen KI-Wachstum">
+  <defs><linearGradient id="vl-ki" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#2F5BFF"/><stop offset="1" stop-color="#7FD4FF"/></linearGradient></defs>
+  <path d="M90,30 L90,560 L1470,560" fill="none" stroke="rgba(244,246,255,.35)" stroke-width="2"/><g class="jahre"><text x="362" y="604" text-anchor="middle">2 J.</text><text x="634" y="604" text-anchor="middle">4 J.</text><text x="906" y="604" text-anchor="middle">6 J.</text><text x="1178" y="604" text-anchor="middle">8 J.</text><text x="1450" y="604" text-anchor="middle">10 J.</text></g>
+  <path class="linie moore" pathLength="1" d="M90.0,554.8 L96.8,554.7 L103.6,554.6 L110.4,554.4 L117.2,554.3 L124.0,554.2 L130.8,554.0 L137.6,553.9 L144.4,553.7 L151.2,553.6 L158.0,553.4 L164.8,553.3 L171.6,553.1 L178.4,553.0 L185.2,552.8 L192.0,552.6 L198.8,552.5 L205.6,552.3 L212.4,552.1 L219.2,551.9 L226.0,551.7 L232.8,551.6 L239.6,551.4 L246.4,551.2 L253.2,550.9 L260.0,550.7 L266.8,550.5 L273.6,550.3 L280.4,550.1 L287.2,549.8 L294.0,549.6 L300.8,549.4 L307.6,549.1 L314.4,548.9 L321.2,548.6 L328.0,548.3 L334.8,548.1 L341.6,547.8 L348.4,547.5 L355.2,547.2 L362.0,546.9 L368.8,546.6 L375.6,546.3 L382.4,546.0 L389.2,545.6 L396.0,545.3 L402.8,544.9 L409.6,544.6 L416.4,544.2 L423.2,543.9 L430.0,543.5 L436.8,543.1 L443.6,542.7 L450.4,542.3 L457.2,541.9 L464.0,541.5 L470.8,541.0 L477.6,540.6 L484.4,540.1 L491.2,539.7 L498.0,539.2 L504.8,538.7 L511.6,538.2 L518.4,537.7 L525.2,537.2 L532.0,536.7 L538.8,536.1 L545.6,535.5 L552.4,535.0 L559.2,534.4 L566.0,533.8 L572.8,533.2 L579.6,532.6 L586.4,531.9 L593.2,531.3 L600.0,530.6 L606.8,529.9 L613.6,529.2 L620.4,528.5 L627.2,527.7 L634.0,527.0 L640.8,526.2 L647.6,525.4 L654.4,524.6 L661.2,523.8 L668.0,522.9 L674.8,522.1 L681.6,521.2 L688.4,520.3 L695.2,519.4 L702.0,518.4 L708.8,517.4 L715.6,516.4 L722.4,515.4 L729.2,514.4 L736.0,513.3 L742.8,512.2 L749.6,511.1 L756.4,510.0 L763.2,508.8 L770.0,507.6 L776.8,506.4 L783.6,505.1 L790.4,503.8 L797.2,502.5 L804.0,501.2 L810.8,499.8 L817.6,498.4 L824.4,496.9 L831.2,495.5 L838.0,494.0 L844.8,492.4 L851.6,490.8 L858.4,489.2 L865.2,487.6 L872.0,485.9 L878.8,484.1 L885.6,482.4 L892.4,480.6 L899.2,478.7 L906.0,476.8 L912.8,474.9 L919.6,472.9 L926.4,470.8 L933.2,468.7 L940.0,466.6 L946.8,464.4 L953.6,462.2 L960.4,459.9 L967.2,457.6 L974.0,455.2 L980.8,452.7 L987.6,450.2 L994.4,447.7 L1001.2,445.0 L1008.0,442.3 L1014.8,439.6 L1021.6,436.8 L1028.4,433.9 L1035.2,430.9 L1042.0,427.9 L1048.8,424.8 L1055.6,421.7 L1062.4,418.4 L1069.2,415.1 L1076.0,411.8 L1082.8,408.3 L1089.6,404.7 L1096.4,401.1 L1103.2,397.4 L1110.0,393.6 L1116.8,389.7 L1123.6,385.7 L1130.4,381.7 L1137.2,377.5 L1144.0,373.2 L1150.8,368.9 L1157.6,364.4 L1164.4,359.8 L1171.2,355.1 L1178.0,350.3 L1184.8,345.4 L1191.6,340.4 L1198.4,335.3 L1205.2,330.0 L1212.0,324.7 L1218.8,319.2 L1225.6,313.5 L1232.4,307.8 L1239.2,301.9 L1246.0,295.9 L1252.8,289.7 L1259.6,283.4 L1266.4,276.9 L1273.2,270.3 L1280.0,263.5 L1286.8,256.6 L1293.6,249.5 L1300.4,242.2 L1307.2,234.8 L1314.0,227.2 L1320.8,219.4 L1327.6,211.5 L1334.4,203.3 L1341.2,195.0 L1348.0,186.4 L1354.8,177.7 L1361.6,168.8 L1368.4,159.6 L1375.2,150.3 L1382.0,140.7 L1388.8,130.9 L1395.6,120.9 L1402.4,110.6 L1409.2,100.1 L1416.0,89.3 L1422.8,78.3 L1429.6,67.1 L1436.4,55.6 L1443.2,43.8 L1450.0,40.0" fill="none" stroke="rgba(244,246,255,.55)" stroke-width="5" stroke-linecap="round"/>
+  <path class="linie ki" pathLength="1" d="M90.0,554.8 L92.3,554.7 L94.5,554.6 L96.8,554.4 L99.0,554.3 L101.3,554.2 L103.6,554.0 L105.8,553.9 L108.1,553.7 L110.3,553.6 L112.6,553.5 L114.8,553.3 L117.1,553.1 L119.4,553.0 L121.6,552.8 L123.9,552.7 L126.1,552.5 L128.4,552.3 L130.7,552.1 L132.9,551.9 L135.2,551.8 L137.4,551.6 L139.7,551.4 L142.0,551.2 L144.2,551.0 L146.5,550.8 L148.7,550.5 L151.0,550.3 L153.2,550.1 L155.5,549.9 L157.8,549.6 L160.0,549.4 L162.3,549.1 L164.5,548.9 L166.8,548.6 L169.1,548.4 L171.3,548.1 L173.6,547.8 L175.8,547.5 L178.1,547.2 L180.4,546.9 L182.6,546.6 L184.9,546.3 L187.1,546.0 L189.4,545.7 L191.7,545.3 L193.9,545.0 L196.2,544.7 L198.4,544.3 L200.7,543.9 L202.9,543.6 L205.2,543.2 L207.5,542.8 L209.7,542.4 L212.0,542.0 L214.2,541.5 L216.5,541.1 L218.8,540.7 L221.0,540.2 L223.3,539.8 L225.5,539.3 L227.8,538.8 L230.1,538.3 L232.3,537.8 L234.6,537.3 L236.8,536.8 L239.1,536.2 L241.3,535.7 L243.6,535.1 L245.9,534.5 L248.1,533.9 L250.4,533.3 L252.6,532.7 L254.9,532.1 L257.2,531.4 L259.4,530.8 L261.7,530.1 L263.9,529.4 L266.2,528.7 L268.5,527.9 L270.7,527.2 L273.0,526.4 L275.2,525.6 L277.5,524.8 L279.7,524.0 L282.0,523.2 L284.3,522.3 L286.5,521.5 L288.8,520.6 L291.0,519.6 L293.3,518.7 L295.6,517.7 L297.8,516.7 L300.1,515.7 L302.3,514.7 L304.6,513.7 L306.9,512.6 L309.1,511.5 L311.4,510.3 L313.6,509.2 L315.9,508.0 L318.2,506.8 L320.4,505.5 L322.7,504.3 L324.9,503.0 L327.2,501.7 L329.4,500.3 L331.7,498.9 L334.0,497.5 L336.2,496.0 L338.5,494.5 L340.7,493.0 L343.0,491.5 L345.3,489.9 L347.5,488.2 L349.8,486.5 L352.0,484.8 L354.3,483.1 L356.6,481.3 L358.8,479.5 L361.1,477.6 L363.3,475.7 L365.6,473.7 L367.8,471.7 L370.1,469.6 L372.4,467.5 L374.6,465.4 L376.9,463.2 L379.1,460.9 L381.4,458.6 L383.7,456.2 L385.9,453.8 L388.2,451.4 L390.4,448.8 L392.7,446.2 L395.0,443.6 L397.2,440.9 L399.5,438.1 L401.7,435.3 L404.0,432.4 L406.2,429.4 L408.5,426.3 L410.8,423.2 L413.0,420.0 L415.3,416.8 L417.5,413.4 L419.8,410.0 L422.1,406.5 L424.3,403.0 L426.6,399.3 L428.8,395.6 L431.1,391.7 L433.4,387.8 L435.6,383.8 L437.9,379.7 L440.1,375.5 L442.4,371.2 L444.6,366.8 L446.9,362.3 L449.2,357.7 L451.4,353.0 L453.7,348.2 L455.9,343.2 L458.2,338.2 L460.5,333.0 L462.7,327.7 L465.0,322.3 L467.2,316.8 L469.5,311.1 L471.8,305.3 L474.0,299.4 L476.3,293.3 L478.5,287.1 L480.8,280.7 L483.1,274.2 L485.3,267.6 L487.6,260.8 L489.8,253.8 L492.1,246.7 L494.3,239.4 L496.6,231.9 L498.9,224.3 L501.1,216.4 L503.4,208.4 L505.6,200.2 L507.9,191.9 L510.2,183.3 L512.4,174.5 L514.7,165.5 L516.9,156.4 L519.2,146.9 L521.5,137.3 L523.7,127.5 L526.0,117.4 L528.2,107.1 L530.5,96.5 L532.7,85.8 L535.0,74.7 L537.3,63.4 L539.5,51.8 L541.8,40.0" fill="none" stroke="url(#vl-ki)" stroke-width="8" stroke-linecap="round"/>
+  <text class="kurven-name ki" x="572" y="60">KI: alle 6 Monate doppelt</text>
+  <text class="kurven-name moore" x="1450" y="487" text-anchor="end">Moore's Law: alle 18 Monate doppelt</text>
+</svg>
+  </div>
+</section>
+
+<!-- ============ 8: DIE FRAGE ============ -->
+<section class="f-lila" data-stimmung="lila">
+  <svg class="kunst" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs><filter id="gl-lila" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="34"/></filter></defs>
+  <g filter="url(#gl-lila)" opacity=".55"><rect width="1920" height="1080" fill="none" stroke="none"/><circle cx="1260" cy="560" r="330" fill="none" stroke="#7C3AED" stroke-width="16"/><circle cx="1570" cy="560" r="330" fill="none" stroke="#C77DFF" stroke-width="16"/></g>
+  <g style="mix-blend-mode:screen"><circle cx="1260" cy="560" r="330" fill="#6D28D9" opacity=".42"/><circle cx="1570" cy="560" r="330" fill="#B565F2" opacity=".38"/></g>
+  <circle cx="1260" cy="560" r="330" fill="none" stroke="#9F67FF" stroke-width="2.5" opacity=".9"/><circle cx="1570" cy="560" r="330" fill="none" stroke="#DDA8FF" stroke-width="2.5" opacity=".9"/>
+</svg>
+  <div class="slide uebergang">
+    <h2 class="hero frage">Was passiert, wenn Intelligenz nicht mehr nur <span class="schimmer">menschlich</span> ist?</h2>
+  </div>
+</section>
+
+<!-- ============ 9: ENDE ============ -->
+<section class="f-hblau" data-chrome="zahl" data-stimmung="hblau">
+  <div class="kunst kante" aria-hidden="true">
+  <div style="position:absolute;inset:0;background:radial-gradient(circle at 1640px 540px, #030309 0, #030309 637px, transparent 640px);"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom, transparent 3%, #A8E4FF 18%, #7FD4FF 50%, #4FC3FF 82%, transparent 97%);-webkit-mask-image:radial-gradient(circle at 1640px 540px, transparent 0, transparent 637px, rgba(0,0,0,.95) 639px, #000 641px, rgba(0,0,0,.62) 645px, rgba(0,0,0,.34) 664px, rgba(0,0,0,.16) 710px, rgba(0,0,0,.06) 790px, transparent 900px);mask-image:radial-gradient(circle at 1640px 540px, transparent 0, transparent 637px, rgba(0,0,0,.95) 639px, #000 641px, rgba(0,0,0,.62) 645px, rgba(0,0,0,.34) 664px, rgba(0,0,0,.16) 710px, rgba(0,0,0,.06) 790px, transparent 900px);"></div>
+</div>
+  <div class="slide ende">
+    <h2 class="hero gesetzt">Vielen <span class="schimmer">Dank.</span></h2>
+    <div class="kontakt"><img src="assets/logos/edge-logo-white.png" alt="EDGE Digital"><p>emre@edge-digital.com<br>0157 72461737</p></div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<script src="vendor/reveal/reveal.js"></script>
+<script src="vendor/reveal/plugin/notes/notes.js"></script>
+<script>
+/* ?nofrag: Standbild für Prüfläufe und den PDF-Export */
+if (new URLSearchParams(location.search).has('nofrag')) document.body.classList.add('standbild');
+
+/* Hochkant erkennen: schmales Fenster im Hochformat, also ein Handy. Tablets und Beamer bleiben quer. */
+function istHochkant() { return window.innerWidth < 900 && window.innerHeight > window.innerWidth * 1.15; }
+function hochkantSetzen() {
+  var h = istHochkant();
+  if (document.body.classList.contains('hochkant') === h && window.__modusGesetzt) return;
+  window.__modusGesetzt = true;
+  document.body.classList.toggle('hochkant', h);
+  /* Die Formen sitzen rechts im Bild: hochkant wird deshalb der rechte Teil gezeigt, nicht die Mitte */
+  document.querySelectorAll('svg.kunst').forEach(function (s) { s.setAttribute('preserveAspectRatio', h ? 'xMaxYMid slice' : 'xMidYMid slice'); });
+  if (window.Reveal && Reveal.isReady && Reveal.isReady()) Reveal.configure({ width: h ? 1080 : 1920, height: h ? 1920 : 1080 });
+}
+hochkantSetzen();
+window.addEventListener('resize', hochkantSetzen);
+
+Reveal.initialize({
+  hash: true, history: true,
+  transition: 'fade', transitionSpeed: 'default', backgroundTransition: 'none',
+  controls: true, controlsLayout: 'bottom-right', controlsTutorial: false,
+  progress: true, slideNumber: false,
+  center: false, width: istHochkant() ? 1080 : 1920, height: istHochkant() ? 1920 : 1080, margin: 0,
+  /* Reveals eigener Scrollmodus für schmale Fenster bleibt aus: wir haben ein eigenes Hochkant Layout */
+  view: null, scrollActivationWidth: 0,
+  plugins: [RevealNotes]
+});
+
+/* Logo, Seitenzahl und Farbstimmung folgen der aktuellen Folie */
+var numEl = document.getElementById('chrome-num');
+function folieUpdate() {
+  var f = Reveal.getCurrentSlide();
+  document.body.classList.toggle('chrome-aus', f.dataset.chrome === 'aus');
+  document.body.classList.toggle('chrome-zahl', f.dataset.chrome === 'zahl');
+  document.body.dataset.stimmung = f.dataset.stimmung || 'neutral';
+  numEl.textContent = String(Reveal.getState().indexh + 1);
+}
+Reveal.on('ready', folieUpdate);
+Reveal.on('slidechanged', folieUpdate);
+
+/* Lange Folien scrollen hochkant in sich (data-prevent-swipe nimmt Reveal dort die Finger weg).
+   Damit man trotzdem weiterblättern kann: eine klar waagerechte Wischgeste blättert, alles andere scrollt. */
+document.querySelectorAll('.slide.rollbar').forEach(function (el) {
+  var x0 = 0, y0 = 0;
+  el.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  el.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 2) { if (dx < 0) Reveal.next(); else Reveal.prev(); }
+  }, { passive: true });
+});
+/* Beim Betreten immer oben anfangen */
+Reveal.on('slidechanged', function (e) { var r = e.currentSlide.querySelector('.rollbar'); if (r) r.scrollTop = 0; });
+
+/* Logos hängen an der Folienkante, nicht am Fensterrand */
+function chromeAusrichten() {
+  var s = document.querySelector('.reveal .slides'); if (!s) return;
+  var r = s.getBoundingClientRect(), w = document.documentElement.style;
+  w.setProperty('--folie-links', Math.max(0, r.left) + 'px');
+  w.setProperty('--folie-oben', Math.max(0, r.top) + 'px');
+  w.setProperty('--folie-unten', Math.max(0, window.innerHeight - r.bottom) + 'px');
+  w.setProperty('--folie-skala', String(r.height / (document.body.classList.contains('hochkant') ? 1920 : 1080)));
+}
+Reveal.on('ready', chromeAusrichten);
+Reveal.on('resize', chromeAusrichten);
+window.addEventListener('resize', chromeAusrichten);
+</script>
+<script src="kosmos.js"></script>
+</body>
+</html>
