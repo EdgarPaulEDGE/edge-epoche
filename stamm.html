@@ -365,6 +365,7 @@ function buehneSetzen() {
   var h = buehnenHoehe(), quer = !istHochkant(), w = document.documentElement.style;
   w.setProperty('--buehne-h', quer ? h + 'px' : '1920px');
   w.setProperty('--extra', quer ? Math.round((h - 1080) / 2) + 'px' : '0px');
+  w.setProperty('--buehne-skala', quer ? String(h / 1080) : '1');
   if (window.Reveal && Reveal.isReady && Reveal.isReady()) {
     var c = Reveal.getConfig();
     if (c.width !== (quer ? 1920 : 1080) || c.height !== h) Reveal.configure({ width: quer ? 1920 : 1080, height: h });

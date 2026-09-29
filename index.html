@@ -366,11 +366,21 @@ body.standbild .kurs .flaeche { opacity: 1; }
 .aemter li { font-size: 32px; line-height: 1.35; padding: 14px 0 14px 34px; position: relative; color: var(--weiss); border-top: 1px solid var(--hairline); max-width: 900px; white-space: nowrap; }
 .aemter li::before { content: ""; position: absolute; left: 4px; top: 29px; width: 11px; height: 11px; border-radius: 50%; background: linear-gradient(135deg, #FF4FA3, #7FD4FF); }
 
+/* Umzugs-Collage: auf 1080 gebaut und mit der Bühne skaliert, damit sie auch auf 16:10 randlos bleibt */
+.umzug { position: absolute; left: 50%; top: 0; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 50% 0; transform: translateX(-50%) scale(var(--buehne-skala, 1)); }
+.umzug .stueck { position: absolute; overflow: hidden; }
+.umzug .stueck img { position: absolute; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
+section > .band { display: none; }
+body.hochkant .umzug { display: none; }
+body.hochkant section > .band { display: grid; }
+
 /* Fotobänder */
 .band { position: absolute; left: 0; top: 0; width: 1920px; height: var(--buehne-h); display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
 .band img { width: 100%; height: 100%; object-fit: cover; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
-.privat { display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px; margin-top: 50px; flex: 1; min-height: 0; max-height: 640px; }
-.privat img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
+.privat { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; margin-top: 24px; flex: 1; min-height: 0; }
+.reihe-fotos { display: flex; gap: 22px; justify-content: center; }
+/* Ganze Fotos, nichts abgeschnitten: gleiche Höhe, Breite ergibt sich aus dem Bild */
+.privat img { height: 392px; width: auto; border-radius: 6px; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
 
 /* Definition */
 .definition { font-size: 58px; line-height: 1.3; font-weight: 600; margin: 34px 0 0; max-width: 1560px; color: var(--w-70); }
@@ -482,7 +492,8 @@ body.hochkant .slide.emre .headline { font-size: 84px; }
 body.hochkant .aemter li { font-size: 34px; white-space: normal; }
 body.hochkant .band { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 1fr; }
 body.hochkant .band img:last-child { grid-column: span 2; }
-body.hochkant .privat { grid-template-columns: repeat(2, 1fr); max-height: none; }
+body.hochkant .reihe-fotos { flex-wrap: wrap; }
+body.hochkant .privat img { height: 260px; }
 body.hochkant .definition { font-size: 56px; }
 body.hochkant .dreischritt { grid-template-columns: 1fr; gap: 90px; }
 body.hochkant .dreischritt p { font-size: 70px; white-space: normal; }
@@ -617,14 +628,15 @@ body.hochkant .riesig small { display: block; margin: 10px 0 0; }
 
 <!-- ============ 9: DIE ANFÄNGE ============ -->
 <section data-stimmung="neutral">
+  <div class="umzug"><div class="stueck" style="left:412px;top:-382px;width:1097px;height:1462px;"><img src="assets/fotos/start-1.jpg" alt="" style="left:0px;top:0px;width:1097px;height:1462px;"></div><div class="stueck" style="left:-1px;top:555px;width:412px;height:525px;"><img src="assets/fotos/start-2.jpg" alt="" style="left:0px;top:-25px;width:412px;height:550px;"></div><div class="stueck" style="left:1508px;top:625px;width:437px;height:456px;"><img src="assets/fotos/start-3.jpg" alt="" style="left:0px;top:-56px;width:438px;height:583px;"></div><div class="stueck" style="left:-1px;top:0px;width:518px;height:656px;"><img src="assets/fotos/start-4.jpg" alt="" style="left:0px;top:-248px;width:679px;height:904px;"></div><div class="stueck" style="left:1328px;top:0px;width:592px;height:684px;"><img src="assets/fotos/start-5.jpg" alt="" style="left:-5px;top:-113px;width:597px;height:797px;"></div></div>
   <div class="band"><img src="assets/fotos/start-1.jpg" alt="" loading="lazy"><img src="assets/fotos/start-2.jpg" alt="" loading="lazy"><img src="assets/fotos/start-3.jpg" alt="" loading="lazy"><img src="assets/fotos/start-4.jpg" alt="" loading="lazy"><img src="assets/fotos/start-5.jpg" alt="" loading="lazy"></div>
 </section>
 
 <!-- ============ 10: EHRLICH ============ -->
 <section data-stimmung="neutral">
-  <div class="slide">
-    <h2 class="headline" style="font-size:68px;white-space:nowrap;">Wir sind ehrlich zueinander… <span class="schimmer">ich fange an.</span></h2>
-    <div class="privat"><img src="assets/fotos/privat-1.jpg" alt="" loading="lazy"><img src="assets/fotos/privat-5.jpg" alt="" loading="lazy"><img src="assets/fotos/privat-4.jpg" alt="" loading="lazy"><img src="assets/fotos/privat-2.jpg" alt="" loading="lazy"><img src="assets/fotos/privat-3.jpg" alt="" loading="lazy"></div>
+  <div class="slide" style="padding-top:118px;padding-bottom:44px;">
+    <h2 class="headline" style="font-size:68px;white-space:nowrap;margin-bottom:0;">Wir sind ehrlich zueinander… <span class="schimmer">ich fange an.</span></h2>
+    <div class="privat"><div class="reihe-fotos"><img src="assets/fotos/privat-1.jpg" alt="" loading="lazy"><img src="assets/fotos/privat-4.jpg" alt="" loading="lazy"><img src="assets/fotos/privat-5.jpg" alt="" loading="lazy"></div><div class="reihe-fotos"><img src="assets/fotos/privat-2.jpg" alt="" loading="lazy"><img src="assets/fotos/privat-3.jpg" alt="" loading="lazy"></div></div>
   </div>
 </section>
 
@@ -735,7 +747,7 @@ body.hochkant .riesig small { display: block; margin: 10px 0 0; }
 </svg>
       <div class="io-seite"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.4A8.5 8.5 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg><b>Output</b><span>Antwort</span></div>
     </div>
-    <p class="io-erklaerung">Ein System ist eine Black Box, wenn man nur Input und Output kennt, aber den inneren Mechanismus nicht nachvollziehen kann.</p>
+    <p class="io-erklaerung">Ein System ist eine Black Box, wenn man nur Input und Output kennt,<br>aber den inneren Mechanismus nicht nachvollziehen kann.</p>
   </div>
 </section>
 
@@ -816,6 +828,7 @@ function buehneSetzen() {
   var h = buehnenHoehe(), quer = !istHochkant(), w = document.documentElement.style;
   w.setProperty('--buehne-h', quer ? h + 'px' : '1920px');
   w.setProperty('--extra', quer ? Math.round((h - 1080) / 2) + 'px' : '0px');
+  w.setProperty('--buehne-skala', quer ? String(h / 1080) : '1');
   if (window.Reveal && Reveal.isReady && Reveal.isReady()) {
     var c = Reveal.getConfig();
     if (c.width !== (quer ? 1920 : 1080) || c.height !== h) Reveal.configure({ width: quer ? 1920 : 1080, height: h });

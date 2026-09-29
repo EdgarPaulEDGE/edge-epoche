@@ -208,6 +208,24 @@ ICON = {
 CHECKLISTE = [("name", "Name"), ("adresse", "Adresse"), ("telefon", "Telefonnummer"), ("mail", "Mailadresse"),
               ("nummer", "Nummern mit Personenbezug"), ("betrag", "Konkrete Beträge"), ("privat", "Private Details")]
 
+# Umzugs-Collage wie in Emres Vorlage (Folie 9): Lage in Folienpixeln 1920x1080 und Zuschnitt (links, oben, rechts, unten)
+# Reihenfolge = Stapelung, das Sofa liegt unten
+UMZUG = [("start-1", 412, -382, 1097, 1462, (0, 0, 0, 0)),
+         ("start-2", -1, 555, 412, 525, (0, .0459, 0, 0)),
+         ("start-3", 1508, 625, 437, 456, (0, .0960, .0017, .1222)),
+         ("start-4", -1, 0, 518, 656, (0, .2747, .2368, 0)),
+         ("start-5", 1328, 0, 592, 684, (.0092, .1422, 0, 0))]
+
+
+def umzug():
+    teile = []
+    for n, x, y, w, h, (l, o, r, u) in UMZUG:
+        bw, bh = w / (1 - l - r), h / (1 - o - u)
+        teile.append(f'<div class="stueck" style="left:{x}px;top:{y}px;width:{w}px;height:{h}px;">'
+                     f'<img src="assets/fotos/{n}.jpg" alt="" style="left:{-l * bw:.0f}px;top:{-o * bh:.0f}px;width:{bw:.0f}px;height:{bh:.0f}px;"></div>')
+    return f'<div class="umzug">{"".join(teile)}</div>'
+
+
 TRIPTYCHON = [("damals-waschbrett", "heute-kleid"), ("damals-feuer", "heute-teller"), ("damals-rechnungen", "heute-handschlag")]
 
 ADRESSE = "Marlesgrube 1, 23552 Lübeck"
@@ -310,11 +328,21 @@ body.standbild .kurs .flaeche { opacity: 1; }
 .aemter li { font-size: 32px; line-height: 1.35; padding: 14px 0 14px 34px; position: relative; color: var(--weiss); border-top: 1px solid var(--hairline); max-width: 900px; white-space: nowrap; }
 .aemter li::before { content: ""; position: absolute; left: 4px; top: 29px; width: 11px; height: 11px; border-radius: 50%; background: linear-gradient(135deg, #FF4FA3, #7FD4FF); }
 
+/* Umzugs-Collage: auf 1080 gebaut und mit der Bühne skaliert, damit sie auch auf 16:10 randlos bleibt */
+.umzug { position: absolute; left: 50%; top: 0; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 50% 0; transform: translateX(-50%) scale(var(--buehne-skala, 1)); }
+.umzug .stueck { position: absolute; overflow: hidden; }
+.umzug .stueck img { position: absolute; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
+section > .band { display: none; }
+body.hochkant .umzug { display: none; }
+body.hochkant section > .band { display: grid; }
+
 /* Fotobänder */
 .band { position: absolute; left: 0; top: 0; width: 1920px; height: var(--buehne-h); display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
 .band img { width: 100%; height: 100%; object-fit: cover; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
-.privat { display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px; margin-top: 50px; flex: 1; min-height: 0; max-height: 640px; }
-.privat img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
+.privat { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; margin-top: 24px; flex: 1; min-height: 0; }
+.reihe-fotos { display: flex; gap: 22px; justify-content: center; }
+/* Ganze Fotos, nichts abgeschnitten: gleiche Höhe, Breite ergibt sich aus dem Bild */
+.privat img { height: 392px; width: auto; border-radius: 6px; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
 
 /* Definition */
 .definition { font-size: 58px; line-height: 1.3; font-weight: 600; margin: 34px 0 0; max-width: 1560px; color: var(--w-70); }
@@ -426,7 +454,8 @@ body.hochkant .slide.emre .headline { font-size: 84px; }
 body.hochkant .aemter li { font-size: 34px; white-space: normal; }
 body.hochkant .band { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 1fr; }
 body.hochkant .band img:last-child { grid-column: span 2; }
-body.hochkant .privat { grid-template-columns: repeat(2, 1fr); max-height: none; }
+body.hochkant .reihe-fotos { flex-wrap: wrap; }
+body.hochkant .privat img { height: 260px; }
 body.hochkant .definition { font-size: 56px; }
 body.hochkant .dreischritt { grid-template-columns: 1fr; gap: 90px; }
 body.hochkant .dreischritt p { font-size: 70px; white-space: normal; }
@@ -474,7 +503,9 @@ def bau():
     punkte = "".join(f'<div class="zs-punkt" style="left:{x}%;"><b>{n}</b><span>{z}</span></div>' for n, z, x in ZEITSTRAHL)
     aemter = "".join(f"<li>{a}</li>" for a in EHRENAEMTER)
     band = "".join(f'<img src="assets/fotos/start-{i}.jpg" alt="" loading="lazy">' for i in range(1, 6))
-    privat = "".join(f'<img src="assets/fotos/privat-{i}.jpg" alt="" loading="lazy">' for i in (1, 5, 4, 2, 3))
+    privat_bild = lambda i: f'<img src="assets/fotos/privat-{i}.jpg" alt="" loading="lazy">'
+    # Kindheit, Studium, Trading oben; Familie und EDGE unten
+    privat = f'<div class="reihe-fotos">{"".join(privat_bild(i) for i in (1, 4, 5))}</div><div class="reihe-fotos">{"".join(privat_bild(i) for i in (2, 3))}</div>'
     verbote = "".join(f'<div>{icon(k)}<p>{t}</p></div>' for k, t in CHECKLISTE)
     trip_damals = "".join(f'<div><img src="assets/illu/{d}.jpg" alt="" loading="lazy"><span class="wann">Damals</span></div>' for d, _ in TRIPTYCHON)
     trip_heute = "".join(f'<div class="heute fragment" data-fragment-index="1"><img src="assets/illu/{h}.jpg" alt="" loading="lazy"><span class="wann">Heute</span></div>' for _, h in TRIPTYCHON)
@@ -557,13 +588,14 @@ def bau():
 
 <!-- ============ 9: DIE ANFÄNGE ============ -->
 <section data-stimmung="neutral">
+  {umzug()}
   <div class="band">{band}</div>
 </section>
 
 <!-- ============ 10: EHRLICH ============ -->
 <section data-stimmung="neutral">
-  <div class="slide">
-    <h2 class="headline" style="font-size:68px;white-space:nowrap;">Wir sind ehrlich zueinander… <span class="schimmer">ich fange an.</span></h2>
+  <div class="slide" style="padding-top:118px;padding-bottom:44px;">
+    <h2 class="headline" style="font-size:68px;white-space:nowrap;margin-bottom:0;">Wir sind ehrlich zueinander… <span class="schimmer">ich fange an.</span></h2>
     <div class="privat">{privat}</div>
   </div>
 </section>
@@ -661,7 +693,7 @@ def bau():
       {blackbox()}
       <div class="io-seite">{icon("antwort")}<b>Output</b><span>Antwort</span></div>
     </div>
-    <p class="io-erklaerung">Ein System ist eine Black Box, wenn man nur Input und Output kennt, aber den inneren Mechanismus nicht nachvollziehen kann.</p>
+    <p class="io-erklaerung">Ein System ist eine Black Box, wenn man nur Input und Output kennt,<br>aber den inneren Mechanismus nicht nachvollziehen kann.</p>
   </div>
 </section>
 
