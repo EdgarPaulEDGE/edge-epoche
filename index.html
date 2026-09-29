@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EDGE x Deutsche Bank</title>
+<title>EDGE x Deutsche Bank · Buy the Dip!</title>
 <meta name="theme-color" content="#030309">
 <!-- Nicht für Suchmaschinen: kein Index, keinen Links folgen, kein Archiv, kein Textausschnitt, keine Bildersuche.
      Bewusst KEINE robots.txt Sperre: die würde verhindern, dass Crawler diese Anweisung überhaupt lesen. -->
@@ -322,33 +322,82 @@ body.hochkant .chrome-edge img { height: calc(64px * var(--folie-skala, 1)); }
 body.hochkant .chrome-num { font-size: calc(26px * var(--folie-skala, 1)); }
 
 /* ---------- EDGE x Deutsche Bank: Zusatzstil ---------- */
-.titel-duo { display: flex; align-items: center; gap: 70px; }
-.titel-duo .titel-logo { width: 560px; }
-.titel-duo .mal { font-size: 90px; font-weight: 400; color: var(--w-45); line-height: 1; }
-.titel-duo .db-logo { height: 210px; width: auto; display: block; margin: 0; }
+/* Folie 1: nur schwarz, auch ohne Galaxie. So startet Emre die Kurslinie selbst. */
+#kosmos, .stimmung, .vignette { transition: opacity 1.1s ease; }
+body[data-stimmung="aus"] #kosmos, body[data-stimmung="aus"] .stimmung { opacity: 0 !important; }
 
+/* Vollflächige Bilder und Schleier */
+.voll { position: absolute; inset: 0; width: 1920px; height: var(--buehne-h); object-fit: cover; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
+.schleier-unten { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(3,3,9,.92) 0%, rgba(3,3,9,.55) 30%, rgba(3,3,9,0) 58%); }
+.schleier-mitte { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3,3,9,.82) 0%, rgba(3,3,9,.45) 32%, rgba(3,3,9,0) 55%); }
+.schleier-oben { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3,3,9,.78) 0%, rgba(3,3,9,.15) 34%, rgba(3,3,9,0) 55%, rgba(3,3,9,.72) 100%); }
+.bild-quelle { position: absolute; right: 40px; bottom: 26px; font-size: 16px; color: rgba(244,246,255,.4); letter-spacing: .06em; }
+
+/* Deckblatt: Logos oben links, Titel darunter, rechts die Kurslinie */
+.titel-duo { display: flex; align-items: center; gap: 38px; }
+.titel-duo .titel-logo { width: 360px; }
+.titel-duo .mal { font-size: 54px; font-weight: 400; color: var(--w-45); line-height: 1; }
+.titel-duo .db-logo { height: 118px; width: auto; display: block; margin: 0; }
+.deckblatt { justify-content: space-between; padding-top: 110px; padding-bottom: 110px; }
+.deckblatt .hero { font-size: 140px; position: relative; }
+.deckblatt .unterzeile { font-size: 50px; font-weight: 600; margin: 22px 0 0; color: var(--w-70); position: relative; }
+.kurs { position: absolute; left: 760px; top: calc(var(--extra) + 90px); width: 1120px; height: 870px; overflow: visible; filter: drop-shadow(0 0 16px rgba(168,85,247,.45)); }
+.kurs .linie, .kurs .schein { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.kurs .schein { opacity: .28; }
+.kurs .flaeche { opacity: 0; }
+.reveal section.present .kurs .linie, .reveal section.present .kurs .schein { animation: zeichnen 3.6s .5s cubic-bezier(.55,.05,.35,1) forwards; }
+.reveal section.present .kurs .flaeche { animation: auftauchen 1.2s 3.4s forwards; }
+body.standbild .kurs .linie, body.standbild .kurs .schein { stroke-dashoffset: 0; }
+body.standbild .kurs .flaeche { opacity: 1; }
+
+/* Große Aussagen */
+.slide.mittig { justify-content: center; align-items: center; text-align: center; }
+.slide.unten { justify-content: flex-end; padding-bottom: 120px; }
+.zitat { font-size: 96px; line-height: 1.12; font-weight: 700; letter-spacing: -.02em; margin: 0; max-width: 1560px; }
+.quelle { margin-top: 40px; font-size: 30px; color: var(--w-45); letter-spacing: .04em; }
+
+/* Emre */
+.emre-foto { position: absolute; right: 0; top: 0; width: 1000px; height: var(--buehne-h); object-fit: cover; object-position: 60% 30%; margin: 0 !important; max-width: none !important; max-height: none !important;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 34%); mask-image: linear-gradient(90deg, transparent 0, #000 34%); }
+.slide.emre { justify-content: center; }
+.slide.emre .headline { font-size: 104px; margin-bottom: 10px; }
+.slide.emre .lead { max-width: 900px; }
+.aemter { list-style: none; margin: 56px 0 0; padding: 0; }
+.aemter li { font-size: 32px; line-height: 1.35; padding: 14px 0 14px 34px; position: relative; color: var(--weiss); border-top: 1px solid var(--hairline); max-width: 900px; white-space: nowrap; }
+.aemter li::before { content: ""; position: absolute; left: 4px; top: 29px; width: 11px; height: 11px; border-radius: 50%; background: linear-gradient(135deg, #FF4FA3, #7FD4FF); }
+
+/* Fotobänder */
+.band { position: absolute; left: 0; top: 0; width: 1920px; height: var(--buehne-h); display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.band img { width: 100%; height: 100%; object-fit: cover; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
+.privat { display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px; margin-top: 50px; flex: 1; min-height: 0; max-height: 640px; }
+.privat img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
+
+/* Definition */
+.definition { font-size: 58px; line-height: 1.3; font-weight: 600; margin: 34px 0 0; max-width: 1560px; color: var(--w-70); }
+
+/* Dreischritt */
 .dreischritt { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 50px; margin-top: auto; margin-bottom: auto; }
 .dreischritt p { margin: 0; font-size: 58px; line-height: 1.12; font-weight: 700; text-transform: uppercase; letter-spacing: -.015em; white-space: nowrap; }
 .dreischritt p span { display: block; }
 
+/* Zeitstrahl */
 .zs-buehne { position: absolute; left: 150px; top: calc(150px + var(--extra)); width: 1620px; aspect-ratio: 1344 / 752; }
 .zs-buehne img { --rand-x: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%); --rand-y: linear-gradient(180deg, transparent 0, #000 22%, #000 80%, transparent 100%);
-  -webkit-mask-image: var(--rand-x), var(--rand-y); -webkit-mask-composite: source-in; mask-image: var(--rand-x), var(--rand-y); mask-composite: intersect; }
-.zs-buehne img { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; margin: 0 !important; max-width: none !important; max-height: none !important; }
+  -webkit-mask-image: var(--rand-x), var(--rand-y); -webkit-mask-composite: source-in; mask-image: var(--rand-x), var(--rand-y); mask-composite: intersect;
+  position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; margin: 0 !important; max-width: none !important; max-height: none !important; }
 .zs-punkt { position: absolute; top: calc(var(--linie) + 9%); transform: translateX(-50%); text-align: center; white-space: nowrap; }
 .zs-punkt b { display: block; font-size: 21px; font-weight: 700; letter-spacing: .01em; text-transform: uppercase; }
 .zs-punkt i { font-style: normal; }
 .zs-punkt span { display: block; font-size: 19px; color: var(--w-45); margin-top: 6px; }
-.slide.zeitstrahl { justify-content: flex-start; }
 .slide.zeitstrahl .headline { position: relative; }
 
+/* Kurve */
 .kurve { width: 100%; height: auto; margin-top: 30px; overflow: visible; }
 .kurve .jahre text { font-size: 24px; fill: rgba(244,246,255,.45); font-family: var(--font); }
-.kurve .kurven-name { font-size: 30px; font-weight: 700; font-family: var(--font); }
+.kurve .kurven-name { font-size: 30px; font-weight: 700; font-family: var(--font); opacity: 0; }
 .kurve .kurven-name.ki { fill: #7FD4FF; }
 .kurve .kurven-name.moore { fill: rgba(244,246,255,.7); }
 .kurve .linie { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.kurve .kurven-name { opacity: 0; }
 .reveal section.present .kurve .linie.moore { animation: zeichnen 2.4s .3s ease-out forwards; }
 .reveal section.present .kurve .linie.ki { animation: zeichnen 1.6s 1.2s ease-in forwards; }
 .reveal section.present .kurve .kurven-name.moore { animation: auftauchen .6s 2.5s forwards; }
@@ -358,20 +407,106 @@ body.standbild .kurve .kurven-name { opacity: 1; }
 @keyframes zeichnen { to { stroke-dashoffset: 0; } }
 @keyframes auftauchen { to { opacity: 1; } }
 
-.hero.frage { font-size: 112px; max-width: 1500px; }
+/* Brücke */
+.ufer { display: flex; justify-content: space-between; align-items: flex-end; flex: 1; padding-bottom: 40px; }
+.ufer p { font-size: 46px; font-weight: 600; margin: 0; white-space: nowrap; text-shadow: 0 4px 30px rgba(3,3,9,.9); }
+.schatten { text-shadow: 0 6px 40px rgba(3,3,9,.85), 0 2px 10px rgba(3,3,9,.6); }
 
-/* Hochkant (Handy) */
-body.hochkant .titel-duo { flex-direction: column; gap: 40px; align-items: flex-start; }
-body.hochkant .titel-duo .titel-logo { width: 620px; }
+/* Pizza: zwei Spalten, getrennt nur durch eine feine Linie */
+.pizza { display: grid; grid-template-columns: 1fr 1px 1fr; gap: 70px; flex: 1; align-items: stretch; }
+.pizza .trennlinie { background: linear-gradient(180deg, transparent, rgba(244,246,255,.25), transparent); }
+.pizza > div:not(.trennlinie) { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.pizza .label { margin-bottom: 26px; }
+.pizza .label.gut { color: #7FD4FF; }
+.pizza .ansage { min-height: 170px; display: flex; align-items: center; justify-content: center; margin: 0; font-weight: 700; }
+.pizza .ansage.kurz { font-size: 88px; }
+.pizza .ansage.lang { font-size: 36px; line-height: 1.4; max-width: 780px; font-weight: 600; }
+.pizza img { height: 400px; width: auto; display: block; margin: 20px 0 !important; }
+.pizza .ergebnis { font-size: 32px; margin: 0; color: var(--w-45); }
+.pizza .ergebnis.gut { color: #7FD4FF; font-weight: 600; }
+
+/* Black Box */
+.io { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 40px; flex: 1; }
+.io-seite { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.io-seite .icon { width: 150px; height: 150px; color: var(--weiss); }
+.io-seite b { font-size: 64px; font-weight: 700; letter-spacing: .02em; margin-top: 18px; }
+.io-seite span { margin-top: 10px; font-size: 30px; color: var(--w-45); letter-spacing: .14em; text-transform: uppercase; }
+.bbox { width: 520px; height: 520px; overflow: visible; filter: drop-shadow(0 0 24px rgba(193,93,230,.45)); }
+.io-pfeil { position: relative; }
+.io-erklaerung { text-align: center; font-size: 34px; line-height: 1.45; color: var(--w-70); margin: 0 auto; max-width: 1400px; }
+
+/* Checkliste */
+.verbote { display: grid; grid-template-columns: repeat(7, 1fr); gap: 26px; margin-top: 110px; }
+.verbote div { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.verbote .icon { width: 120px; height: 120px; color: #FF5468; filter: drop-shadow(0 0 14px rgba(255,31,61,.45)); }
+.verbote p { margin: 28px 0 0; font-size: 25px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; line-height: 1.3; }
+
+/* Harvard x BCG */
+.studie { display: flex; flex-direction: column; justify-content: center; flex: 1; }
+.riesig { font-size: 300px; line-height: .95; font-weight: 700; letter-spacing: -.04em; margin: 16px 0 0; }
+.riesig small { font-size: 72px; letter-spacing: -.01em; margin-left: 28px; color: var(--weiss); -webkit-text-fill-color: var(--weiss); }
+.nebenzahlen { display: flex; gap: 90px; margin-top: 40px; font-size: 44px; font-weight: 600; color: var(--w-70); }
+.nebenzahlen b { color: var(--weiss); }
+.haelften { display: flex; gap: 90px; margin-top: 50px; font-size: 44px; font-weight: 600; }
+.haelften b { color: #7FD4FF; }
+.training { margin-top: 56px; font-size: 44px; font-weight: 700; }
+
+/* Triptychon */
+.trip { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 22px 30px; flex: 1; min-height: 0; margin-top: 10px; }
+.trip img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
+.trip .heute img { box-shadow: 0 0 0 1.5px rgba(168,85,247,.55), 0 0 44px rgba(47,91,255,.35), 0 0 80px rgba(255,79,163,.18); }
+.trip > div { min-height: 0; position: relative; }
+.trip .wann { position: absolute; left: 20px; top: 16px; font-size: 20px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(244,246,255,.85); text-shadow: 0 2px 12px rgba(0,0,0,.8); }
+.bestimmung { margin: 34px 0 0; font-size: 72px; line-height: 1.1; font-weight: 700; text-transform: uppercase; letter-spacing: -.02em; text-align: center; }
+
+/* Ende */
+.ende-foto { position: absolute; right: 0; top: 0; width: 820px; height: var(--buehne-h); object-fit: cover; object-position: 50% 40%; margin: 0 !important; max-width: none !important; max-height: none !important;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 30%); mask-image: linear-gradient(90deg, transparent 0, #000 30%); }
+.slide.schluss { justify-content: center; }
+.slide.schluss .hero { font-size: 96px; max-width: 1060px; }
+.slide.schluss .kontakt { margin-top: 80px; display: flex; align-items: center; gap: 36px; }
+.slide.schluss .kontakt img { width: 260px; height: auto; margin: 0; }
+.slide.schluss .kontakt p { margin: 0; font-size: 28px; line-height: 1.5; color: var(--w-70); }
+.slide.schluss .kontakt p b { color: var(--weiss); }
+
+/* ---------- Hochkant (Handy) ---------- */
+body.hochkant .titel-duo .titel-logo { width: 420px; }
+body.hochkant .titel-duo .db-logo { height: 130px; }
+body.hochkant .deckblatt .hero { font-size: 104px; }
+body.hochkant .deckblatt .unterzeile { font-size: 50px; }
+body.hochkant .kurs { left: -60px; top: 900px; width: 1200px; height: 900px; }
+body.hochkant .zitat { font-size: 78px; }
+body.hochkant .emre-foto { width: 1080px; height: 1000px; top: auto; bottom: 0; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 40%); mask-image: linear-gradient(180deg, transparent 0, #000 40%); }
+body.hochkant .slide.emre { justify-content: flex-start; }
+body.hochkant .slide.emre .headline { font-size: 84px; }
+body.hochkant .aemter li { font-size: 34px; white-space: normal; }
+body.hochkant .band { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 1fr; }
+body.hochkant .band img:last-child { grid-column: span 2; }
+body.hochkant .privat { grid-template-columns: repeat(2, 1fr); max-height: none; }
+body.hochkant .definition { font-size: 56px; }
 body.hochkant .dreischritt { grid-template-columns: 1fr; gap: 90px; }
 body.hochkant .dreischritt p { font-size: 70px; white-space: normal; }
 body.hochkant .zs-buehne { width: 980px; left: 50px; top: 640px; }
-body.hochkant .nur-quer { display: none; }
-body.hochkant .zeitstrahl .headline .schimmer { display: block; }
 body.hochkant .zs-punkt b { font-size: 26px; letter-spacing: 0; }
 body.hochkant .zs-punkt span { display: none; }
 body.hochkant .zs-punkt:nth-child(odd of .zs-punkt) { top: calc(var(--linie) - 22%); }
-body.hochkant .hero.frage { font-size: 80px; }
+body.hochkant .nur-quer { display: none; }
+body.hochkant .zeitstrahl .headline .schimmer { display: block; }
+body.hochkant .ufer { flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 30px; }
+body.hochkant .ufer p { font-size: 50px; white-space: normal; }
+body.hochkant .pizza { grid-template-columns: 1fr; gap: 50px; }
+body.hochkant .pizza .trennlinie { display: none; }
+body.hochkant .pizza img { height: 300px; }
+body.hochkant .io { grid-template-columns: 1fr; gap: 20px; }
+body.hochkant .verbote { grid-template-columns: repeat(2, 1fr); gap: 60px 30px; margin-top: 70px; }
+body.hochkant .riesig { font-size: 220px; }
+body.hochkant .nebenzahlen, body.hochkant .haelften { flex-direction: column; gap: 16px; }
+body.hochkant .trip { grid-template-columns: 1fr 1fr; grid-template-rows: none; grid-auto-rows: 330px; grid-auto-flow: column; grid-template-rows: repeat(3, 330px); }
+body.hochkant .trip > div:nth-child(n+4) { grid-column: 2; }
+body.hochkant .bestimmung { font-size: 64px; }
+body.hochkant .ende-foto { width: 1080px; height: 900px; top: auto; bottom: 0; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 40%); mask-image: linear-gradient(180deg, transparent 0, #000 40%); }
+body.hochkant .slide.schluss { justify-content: flex-start; }
+body.hochkant .slide.schluss .hero { font-size: 84px; }
 </style>
 </head>
 <body data-stimmung="neutral">
@@ -387,105 +522,139 @@ body.hochkant .hero.frage { font-size: 80px; }
 <div class="reveal">
 <div class="slides">
 
-<!-- ============ 1: DECKBLATT ============ -->
+<!-- ============ 1: SCHWARZ. Emre startet von hier die Kurslinie ============ -->
+<section data-chrome="aus" data-stimmung="aus">
+  <div class="slide"></div>
+</section>
+
+<!-- ============ 2: DECKBLATT · BUY THE DIP ============ -->
 <section data-chrome="aus" data-stimmung="neutral">
-  <div class="kunst kante" aria-hidden="true">
-  <div style="position:absolute;inset:0;background:radial-gradient(circle at 1640px 540px, #030309 0, #030309 637px, transparent 640px);"></div>
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom, transparent 3%, #FF1F3D 18%, #FF4FA3 37%, #A855F7 53%, #2F5BFF 68%, #7FD4FF 82%, transparent 97%);-webkit-mask-image:radial-gradient(circle at 1640px 540px, transparent 0, transparent 637px, rgba(0,0,0,.95) 639px, #000 641px, rgba(0,0,0,.62) 645px, rgba(0,0,0,.34) 664px, rgba(0,0,0,.16) 710px, rgba(0,0,0,.06) 790px, transparent 900px);mask-image:radial-gradient(circle at 1640px 540px, transparent 0, transparent 637px, rgba(0,0,0,.95) 639px, #000 641px, rgba(0,0,0,.62) 645px, rgba(0,0,0,.34) 664px, rgba(0,0,0,.16) 710px, rgba(0,0,0,.06) 790px, transparent 900px);"></div>
-</div>
-  <div class="slide" style="justify-content:center;">
+  <svg class="kurs" viewBox="0 0 1160 900" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <defs>
+    <linearGradient id="vl-kurs" x1="0" y1="0" x2="1160" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF1F3D" stop-opacity="0"/><stop offset=".1" stop-color="#FF1F3D"/><stop offset=".38" stop-color="#FF4FA3"/><stop offset=".6" stop-color="#A855F7"/><stop offset=".8" stop-color="#2F5BFF"/><stop offset="1" stop-color="#7FD4FF"/>
+    </linearGradient>
+    <linearGradient id="vl-flaeche" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7C5CFF" stop-opacity=".30"/><stop offset="1" stop-color="#7C5CFF" stop-opacity="0"/></linearGradient>
+  </defs>
+  <path class="schein" pathLength="1" d="M0,430 C110,418 190,446 290,428 C350,418 378,432 408,520 C438,618 462,760 505,782 C548,802 572,650 622,606 C680,556 722,612 772,592 C852,560 900,420 962,300 C1012,200 1062,92 1160,-20" fill="none" stroke="url(#vl-kurs)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+  <path class="linie" pathLength="1" d="M0,430 C110,418 190,446 290,428 C350,418 378,432 408,520 C438,618 462,760 505,782 C548,802 572,650 622,606 C680,556 722,612 772,592 C852,560 900,420 962,300 C1012,200 1062,92 1160,-20" fill="none" stroke="url(#vl-kurs)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+  <div class="slide deckblatt">
     <div class="titel-duo">
       <img class="titel-logo" src="assets/logos/edge-logo-white.png" alt="EDGE Digital">
       <span class="mal">×</span>
       <img class="db-logo" src="assets/logos/ref-deutschebank.png" alt="Deutsche Bank" width="240" height="240">
     </div>
+    <div>
+      <h1 class="hero">Buy the <span class="schimmer">Dip!</span></h1>
+      <p class="unterzeile">Warum jetzt in KI einsteigen?</p>
+    </div>
   </div>
 </section>
 
-<!-- ============ 2: COLLAGE ============ -->
+<!-- ============ 3: BANKFILIALE DER 90ER ============ -->
+<section data-chrome="aus" data-stimmung="neutral">
+  <img class="voll" src="assets/illu/bank-90er.jpg" alt="Bankfiliale in den 90ern mit Röhrenmonitor und Fax">
+  <div class="schleier-unten"></div>
+  <div class="slide unten">
+    <p class="zitat" style="text-align:left;font-size:88px;white-space:nowrap;">„Das Internet? Das geht wieder weg.“</p>
+    <span class="bild-quelle">Bild mit KI erstellt</span>
+  </div>
+</section>
+
+<!-- ============ 4: HEUTE ÜBER KI ============ -->
+<section class="f-rot" data-stimmung="rot">
+  <svg class="kunst" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs><filter id="gl-rot" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="9"/></filter></defs>
+  <g fill="none" stroke="#FF1F3D" stroke-width="7" stroke-linejoin="miter" filter="url(#gl-rot)" opacity=".75"><rect width="1920" height="1080" fill="none" stroke="none"/><path d="M1490,270 L1706,395 L1706,645 L1490,770 L1274,645 L1274,395 Z M1490,520 L1490,770 M1490,520 L1706,395 M1490,520 L1274,395 M1180,140 L1275,195 L1275,305 L1180,360 L1085,305 L1085,195 Z M1180,250 L1180,360 M1180,250 L1275,195 M1180,250 L1085,195 M1760,100 L1838,145 L1838,235 L1760,280 L1682,235 L1682,145 Z M1760,190 L1760,280 M1760,190 L1838,145 M1760,190 L1682,145 M1820,670 L1950,745 L1950,895 L1820,970 L1690,895 L1690,745 Z M1820,820 L1820,970 M1820,820 L1950,745 M1820,820 L1690,745 M1230,730 L1343,795 L1343,925 L1230,990 L1117,925 L1117,795 Z M1230,860 L1230,990 M1230,860 L1343,795 M1230,860 L1117,795 M960,580 L1012,610 L1012,670 L960,700 L908,670 L908,610 Z M960,640 L960,700 M960,640 L1012,610 M960,640 L908,610 M1610,890 L1671,925 L1671,995 L1610,1030 L1549,995 L1549,925 Z M1610,960 L1610,1030 M1610,960 L1671,925 M1610,960 L1549,925 M1010,80 L1053,105 L1053,155 L1010,180 L967,155 L967,105 Z M1010,130 L1010,180 M1010,130 L1053,105 M1010,130 L967,105 M1380,50 L1415,70 L1415,110 L1380,130 L1345,110 L1345,70 Z M1380,90 L1380,130 M1380,90 L1415,70 M1380,90 L1345,70 M700,914 L740,937 L740,983 L700,1006 L660,983 L660,937 Z M700,960 L700,1006 M700,960 L740,937 M700,960 L660,937 M380,72 L413,91 L413,129 L380,148 L347,129 L347,91 Z M380,110 L380,148 M380,110 L413,91 M380,110 L347,91 M1900,420 L1952,450 L1952,510 L1900,540 L1848,510 L1848,450 Z M1900,480 L1900,540 M1900,480 L1952,450 M1900,480 L1848,450 M120,830 L181,865 L181,935 L120,970 L59,935 L59,865 Z M120,900 L120,970 M120,900 L181,865 M120,900 L59,865 M860,346 L889,363 L889,397 L860,414 L831,397 L831,363 Z M860,380 L860,414 M860,380 L889,363 M860,380 L831,363"/></g>
+  <g fill="rgba(255,31,61,.05)" stroke="#FF5468" stroke-width="2.5" stroke-linejoin="miter"><path d="M1490,270 L1706,395 L1706,645 L1490,770 L1274,645 L1274,395 Z M1490,520 L1490,770 M1490,520 L1706,395 M1490,520 L1274,395 M1180,140 L1275,195 L1275,305 L1180,360 L1085,305 L1085,195 Z M1180,250 L1180,360 M1180,250 L1275,195 M1180,250 L1085,195 M1760,100 L1838,145 L1838,235 L1760,280 L1682,235 L1682,145 Z M1760,190 L1760,280 M1760,190 L1838,145 M1760,190 L1682,145 M1820,670 L1950,745 L1950,895 L1820,970 L1690,895 L1690,745 Z M1820,820 L1820,970 M1820,820 L1950,745 M1820,820 L1690,745 M1230,730 L1343,795 L1343,925 L1230,990 L1117,925 L1117,795 Z M1230,860 L1230,990 M1230,860 L1343,795 M1230,860 L1117,795 M960,580 L1012,610 L1012,670 L960,700 L908,670 L908,610 Z M960,640 L960,700 M960,640 L1012,610 M960,640 L908,610 M1610,890 L1671,925 L1671,995 L1610,1030 L1549,995 L1549,925 Z M1610,960 L1610,1030 M1610,960 L1671,925 M1610,960 L1549,925 M1010,80 L1053,105 L1053,155 L1010,180 L967,155 L967,105 Z M1010,130 L1010,180 M1010,130 L1053,105 M1010,130 L967,105 M1380,50 L1415,70 L1415,110 L1380,130 L1345,110 L1345,70 Z M1380,90 L1380,130 M1380,90 L1415,70 M1380,90 L1345,70 M700,914 L740,937 L740,983 L700,1006 L660,983 L660,937 Z M700,960 L700,1006 M700,960 L740,937 M700,960 L660,937 M380,72 L413,91 L413,129 L380,148 L347,129 L347,91 Z M380,110 L380,148 M380,110 L413,91 M380,110 L347,91 M1900,420 L1952,450 L1952,510 L1900,540 L1848,510 L1848,450 Z M1900,480 L1900,540 M1900,480 L1952,450 M1900,480 L1848,450 M120,830 L181,865 L181,935 L120,970 L59,935 L59,865 Z M120,900 L120,970 M120,900 L181,865 M120,900 L59,865 M860,346 L889,363 L889,397 L860,414 L831,397 L831,363 Z M860,380 L860,414 M860,380 L889,363 M860,380 L831,363"/></g>
+  <rect x="976" y="160" width="22" height="22" fill="#FF2D3D" opacity="0.15"/><rect x="1568" y="96" width="16" height="16" fill="#FF2D3D" opacity="0.16"/><rect x="1232" y="32" width="12" height="12" fill="#FF2D3D" opacity="0.38"/><rect x="1568" y="128" width="8" height="8" fill="#FF2D3D" opacity="0.52"/><rect x="1312" y="64" width="16" height="16" fill="#FF2D3D" opacity="0.37"/><rect x="1776" y="48" width="30" height="30" fill="#FF2D3D" opacity="0.20"/><rect x="1120" y="576" width="16" height="16" fill="#FF2D3D" opacity="0.31"/><rect x="1552" y="192" width="16" height="16" fill="#FF2D3D" opacity="0.48"/><rect x="736" y="96" width="22" height="22" fill="#FF2D3D" opacity="0.16"/><rect x="416" y="208" width="22" height="22" fill="#FF2D3D" opacity="0.45"/><rect x="1520" y="496" width="12" height="12" fill="#FF2D3D" opacity="0.35"/><rect x="848" y="192" width="30" height="30" fill="#FF2D3D" opacity="0.27"/><rect x="1296" y="560" width="12" height="12" fill="#FF2D3D" opacity="0.58"/><rect x="928" y="1056" width="8" height="8" fill="#FF2D3D" opacity="0.44"/><rect x="1120" y="1024" width="8" height="8" fill="#FF2D3D" opacity="0.60"/><rect x="1296" y="944" width="12" height="12" fill="#FF2D3D" opacity="0.33"/><rect x="1024" y="528" width="30" height="30" fill="#FF2D3D" opacity="0.41"/><rect x="1584" y="1008" width="12" height="12" fill="#FF2D3D" opacity="0.56"/><rect x="432" y="784" width="12" height="12" fill="#FF2D3D" opacity="0.53"/><rect x="1840" y="880" width="12" height="12" fill="#FF2D3D" opacity="0.57"/><rect x="1632" y="368" width="12" height="12" fill="#FF2D3D" opacity="0.34"/><rect x="1344" y="528" width="8" height="8" fill="#FF2D3D" opacity="0.60"/><rect x="608" y="256" width="12" height="12" fill="#FF2D3D" opacity="0.70"/><rect x="1216" y="176" width="12" height="12" fill="#FF2D3D" opacity="0.47"/><rect x="1632" y="880" width="30" height="30" fill="#FF2D3D" opacity="0.47"/><rect x="1440" y="1056" width="22" height="22" fill="#FF2D3D" opacity="0.68"/><rect x="1744" y="160" width="8" height="8" fill="#FF2D3D" opacity="0.22"/><rect x="1392" y="0" width="30" height="30" fill="#FF2D3D" opacity="0.49"/><rect x="880" y="0" width="12" height="12" fill="#FF2D3D" opacity="0.46"/><rect x="1344" y="336" width="8" height="8" fill="#FF2D3D" opacity="0.56"/><rect x="1232" y="656" width="22" height="22" fill="#FF2D3D" opacity="0.59"/><rect x="1168" y="928" width="30" height="30" fill="#FF2D3D" opacity="0.55"/><rect x="1280" y="416" width="12" height="12" fill="#FF2D3D" opacity="0.19"/><rect x="1376" y="64" width="8" height="8" fill="#FF2D3D" opacity="0.74"/><rect x="1136" y="112" width="16" height="16" fill="#FF2D3D" opacity="0.15"/><rect x="16" y="160" width="8" height="8" fill="#FF2D3D" opacity="0.72"/><rect x="1344" y="64" width="8" height="8" fill="#FF2D3D" opacity="0.51"/><rect x="656" y="272" width="12" height="12" fill="#FF2D3D" opacity="0.50"/><rect x="1184" y="112" width="12" height="12" fill="#FF2D3D" opacity="0.75"/><rect x="1168" y="512" width="8" height="8" fill="#FF2D3D" opacity="0.21"/><rect x="1488" y="784" width="12" height="12" fill="#FF2D3D" opacity="0.64"/><rect x="688" y="16" width="16" height="16" fill="#FF2D3D" opacity="0.35"/><rect x="1424" y="976" width="30" height="30" fill="#FF2D3D" opacity="0.45"/><rect x="1792" y="928" width="22" height="22" fill="#FF2D3D" opacity="0.65"/><rect x="1232" y="976" width="12" height="12" fill="#FF2D3D" opacity="0.61"/><rect x="1248" y="832" width="12" height="12" fill="#FF2D3D" opacity="0.52"/><rect x="1344" y="848" width="30" height="30" fill="#FF2D3D" opacity="0.66"/><rect x="1552" y="880" width="22" height="22" fill="#FF2D3D" opacity="0.63"/><rect x="288" y="16" width="12" height="12" fill="#FF2D3D" opacity="0.42"/><rect x="1152" y="1008" width="12" height="12" fill="#FF2D3D" opacity="0.72"/><rect x="1040" y="224" width="8" height="8" fill="#FF2D3D" opacity="0.42"/><rect x="1584" y="512" width="22" height="22" fill="#FF2D3D" opacity="0.34"/><rect x="1376" y="896" width="8" height="8" fill="#FF2D3D" opacity="0.69"/><rect x="1520" y="800" width="12" height="12" fill="#FF2D3D" opacity="0.68"/><rect x="1136" y="672" width="8" height="8" fill="#FF2D3D" opacity="0.62"/><rect x="1776" y="416" width="12" height="12" fill="#FF2D3D" opacity="0.59"/><rect x="496" y="160" width="8" height="8" fill="#FF2D3D" opacity="0.14"/><rect x="1328" y="496" width="22" height="22" fill="#FF2D3D" opacity="0.21"/><rect x="1568" y="1056" width="22" height="22" fill="#FF2D3D" opacity="0.71"/><rect x="192" y="1040" width="22" height="22" fill="#FF2D3D" opacity="0.18"/><rect x="1488" y="144" width="30" height="30" fill="#FF2D3D" opacity="0.24"/><rect x="1616" y="16" width="8" height="8" fill="#FF2D3D" opacity="0.30"/><rect x="1264" y="896" width="8" height="8" fill="#FF2D3D" opacity="0.69"/><rect x="1024" y="480" width="16" height="16" fill="#FF2D3D" opacity="0.63"/><rect x="1232" y="880" width="16" height="16" fill="#FF2D3D" opacity="0.20"/><rect x="1136" y="192" width="8" height="8" fill="#FF2D3D" opacity="0.61"/><rect x="656" y="144" width="16" height="16" fill="#FF2D3D" opacity="0.58"/><rect x="1280" y="352" width="16" height="16" fill="#FF2D3D" opacity="0.45"/><rect x="1200" y="832" width="16" height="16" fill="#FF2D3D" opacity="0.16"/><rect x="752" y="32" width="8" height="8" fill="#FF2D3D" opacity="0.44"/><rect x="1296" y="816" width="8" height="8" fill="#FF2D3D" opacity="0.40"/><rect x="1344" y="544" width="16" height="16" fill="#FF2D3D" opacity="0.25"/><rect x="1184" y="1008" width="22" height="22" fill="#FF2D3D" opacity="0.45"/><rect x="1616" y="992" width="16" height="16" fill="#FF2D3D" opacity="0.68"/><rect x="1408" y="448" width="8" height="8" fill="#FF2D3D" opacity="0.54"/><rect x="1520" y="960" width="8" height="8" fill="#FF2D3D" opacity="0.71"/><rect x="1376" y="384" width="12" height="12" fill="#FF2D3D" opacity="0.68"/><rect x="1760" y="224" width="8" height="8" fill="#FF2D3D" opacity="0.37"/><rect x="1200" y="1056" width="30" height="30" fill="#FF2D3D" opacity="0.26"/><rect x="1440" y="1072" width="12" height="12" fill="#FF2D3D" opacity="0.33"/><rect x="1040" y="352" width="12" height="12" fill="#FF2D3D" opacity="0.40"/><rect x="928" y="1024" width="8" height="8" fill="#FF2D3D" opacity="0.74"/><rect x="1530" y="992" width="107" height="3" fill="#FF5A3C" opacity="0.34"/><rect x="931" y="807" width="150" height="3" fill="#FF5A3C" opacity="0.30"/><rect x="1237" y="934" width="292" height="3" fill="#FF5A3C" opacity="0.34"/><rect x="1019" y="942" width="228" height="3" fill="#FF5A3C" opacity="0.50"/><rect x="971" y="115" width="258" height="3" fill="#FF5A3C" opacity="0.40"/><rect x="957" y="960" width="244" height="3" fill="#FF5A3C" opacity="0.53"/><rect x="966" y="881" width="97" height="3" fill="#FF5A3C" opacity="0.55"/><rect x="1263" y="385" width="223" height="3" fill="#FF5A3C" opacity="0.57"/><rect x="1114" y="184" width="216" height="3" fill="#FF5A3C" opacity="0.33"/>
+</svg>
+  <div class="slide uebergang">
+    <h2 class="hero gesetzt" style="font-size:120px;">„Heute sagen viele<br>dasselbe <span class="schimmer">über KI.</span>“</h2>
+  </div>
+</section>
+
+<!-- ============ 5: ABER VORAB ============ -->
+<section data-stimmung="neutral">
+  <div class="slide uebergang">
+    <p class="label" style="position:relative;font-size:26px;margin-bottom:26px;">Aber vorab</p>
+    <h2 class="hero gesetzt" style="font-size:112px;">Wer bin ich? Und warum<br>spreche ich <span class="schimmer">darüber?</span></h2>
+  </div>
+</section>
+
+<!-- ============ 6: EMRE ============ -->
+<section data-stimmung="neutral">
+  <img class="emre-foto" src="assets/fotos/emre.jpg" alt="Emre Erdogan">
+  <div class="slide emre">
+    <h2 class="headline">Emre <span class="schimmer">Erdogan</span></h2>
+    <p class="lead">Gründer und Geschäftsführer der Firma EDGE Digital</p>
+    <ul class="aemter"><li>Vorstand für Innovation und Technologie im HanseBelt e.V.</li><li>Rotarier</li><li>Kaufmannschaft Lübeck</li><li>Energiecluster Lübeck</li></ul>
+  </div>
+</section>
+
+<!-- ============ 7: COLLAGE ============ -->
 <section class="f-pink" data-stimmung="pink">
   <img class="collage" src="assets/collage/collage.jpg" alt="EDGE unterwegs: Vorträge, Preise, Kunden, Team" width="2560" height="1440">
   <div class="collage-hoch"><div style="background-position:left center;"></div><div style="background-position:right center;"></div></div>
   <div class="collage-schleier"></div>
 </section>
 
-<!-- ============ 3: REFERENZEN ============ -->
+<!-- ============ 8: REFERENZEN (ohne Deutsche Bank) ============ -->
 <section class="f-lila" data-stimmung="lila">
   <div class="slide wand rollbar" data-prevent-swipe>
-    <div class="logos gross"><div><img src="assets/logos/ref-sparkasse.png" alt="Sparkasse zu Lübeck" width="547" height="240"></div><div><img src="assets/logos/ref-ihk.png" alt="IHK zu Lübeck" width="324" height="96"></div><div><img src="assets/logos/ref-staatskanzlei.png" alt="Staatskanzlei Schleswig-Holstein" width="640" height="94"></div><div><img src="assets/logos/ref-hansestadt.png" alt="Hansestadt Lübeck" width="237" height="240"></div><div><img src="assets/logos/ref-ln.png" alt="Lübecker Nachrichten" width="188" height="188"></div><div><img src="assets/logos/ref-collins.png" alt="Collins Aerospace" width="640" height="110"></div><div><img src="assets/logos/ref-deutschebank.png" alt="Deutsche Bank" width="240" height="240"></div><div><img src="assets/logos/ref-wfluebeck.png" alt="Wirtschaftsförderung Lübeck" width="441" height="240"></div><div><img src="assets/logos/ref-wfl.png" alt="WFL Herzogtum Lauenburg" width="410" height="240"></div><div><img src="assets/logos/ref-hansebelt.png" alt="HanseBelt" width="640" height="229"></div><div><img src="assets/logos/ref-exrohr.png" alt="ExRohr" width="640" height="179"></div><div><img src="assets/logos/ref-cbl.png" alt="Convention Bureau Lübeck" width="498" height="240"></div><div><img src="assets/logos/ref-ltm.png" alt="Lübeck Travemünde Marketing" width="307" height="240"></div><div><img src="assets/logos/ref-ksk.png" alt="Kreissparkasse Herzogtum Lauenburg" width="640" height="160"></div><div><img src="assets/logos/ref-hamann.png" alt="Hugo Hamann Firmengruppe" width="640" height="192"></div><div><img src="assets/logos/ref-diakonie.png" alt="Diakonie Nord Nord Ost" width="611" height="240"></div><div><img src="assets/logos/ref-norva24.png" alt="Norva24" width="640" height="108"></div><div><img src="assets/logos/ref-vs.png" alt="Vereinigte Stadtwerke" width="379" height="240"></div></div>
+    <div class="logos gross"><div><img src="assets/logos/ref-sparkasse.png" alt="Sparkasse zu Lübeck" width="547" height="240"></div><div><img src="assets/logos/ref-ihk.png" alt="IHK zu Lübeck" width="324" height="96"></div><div><img src="assets/logos/ref-staatskanzlei.png" alt="Staatskanzlei Schleswig-Holstein" width="640" height="94"></div><div><img src="assets/logos/ref-hansestadt.png" alt="Hansestadt Lübeck" width="237" height="240"></div><div><img src="assets/logos/ref-ln.png" alt="Lübecker Nachrichten" width="188" height="188"></div><div><img src="assets/logos/ref-collins.png" alt="Collins Aerospace" width="640" height="110"></div><div><img src="assets/logos/ref-wfluebeck.png" alt="Wirtschaftsförderung Lübeck" width="441" height="240"></div><div><img src="assets/logos/ref-wfl.png" alt="WFL Herzogtum Lauenburg" width="410" height="240"></div><div><img src="assets/logos/ref-hansebelt.png" alt="HanseBelt" width="640" height="229"></div><div><img src="assets/logos/ref-exrohr.png" alt="ExRohr" width="640" height="179"></div><div><img src="assets/logos/ref-cbl.png" alt="Convention Bureau Lübeck" width="498" height="240"></div><div><img src="assets/logos/ref-ltm.png" alt="Lübeck Travemünde Marketing" width="307" height="240"></div><div><img src="assets/logos/ref-ksk.png" alt="Kreissparkasse Herzogtum Lauenburg" width="640" height="160"></div><div><img src="assets/logos/ref-hamann.png" alt="Hugo Hamann Firmengruppe" width="640" height="192"></div><div><img src="assets/logos/ref-diakonie.png" alt="Diakonie Nord Nord Ost" width="611" height="240"></div><div><img src="assets/logos/ref-norva24.png" alt="Norva24" width="640" height="108"></div><div><img src="assets/logos/ref-vs.png" alt="Vereinigte Stadtwerke" width="379" height="240"></div></div>
     <hr class="trenner">
     <div class="logos klein" style="--spalten:11;"><div><img src="assets/logos/ref-wks.png" alt="WKS Kreis Segeberg" width="452" height="193"></div><div><img src="assets/logos/ref-swm.png" alt="Wirtschaftsförderung Südwestmecklenburg" width="201" height="134"></div><div><img src="assets/logos/ref-digitalesmv.png" alt="digitales MV" width="263" height="215"></div><div><img src="assets/logos/ref-kish.png" alt="KI.SH" width="640" height="196"></div><div><img src="assets/logos/ref-behne.png" alt="Behne" width="356" height="240"></div><div><img src="assets/logos/ref-segler.png" alt="Kommunaltechnik Segler" width="640" height="143"></div><div><img src="assets/logos/ref-falkenhagen.png" alt="Rohrreinigung Falkenhagen" width="640" height="149"></div><div><img src="assets/logos/ref-kt.png" alt="Kanal Türpe" width="640" height="103"></div><div><img src="assets/logos/ref-willidamm.png" alt="Willi Damm" width="200" height="142"></div><div><img src="assets/logos/ref-buhck.png" alt="Buhck Gruppe" width="640" height="125"></div><div><img src="assets/logos/ref-mayer.png" alt="MAYER" width="146" height="146"></div><div><img src="assets/logos/ref-inlingua.png" alt="inlingua" width="640" height="139"></div><div><img src="assets/logos/ref-mediamagneten.png" alt="mediamagneten" width="640" height="173"></div><div><img src="assets/logos/ref-sterac.png" alt="STERAC" width="640" height="163"></div><div><img src="assets/logos/ref-elvis.png" alt="ELVIS Eis" width="443" height="240"></div><div><img src="assets/logos/ref-aerztekammer.png" alt="Ärztekammer Schleswig-Holstein" width="538" height="240"></div><div><img src="assets/logos/ref-apart.png" alt="APART" width="640" height="146"></div><div><img src="assets/logos/ref-baumstark.png" alt="Baumstark Pflege" width="209" height="240"></div><div><img src="assets/logos/ref-cordula.png" alt="Cordula Ahrens" width="222" height="240"></div><div><img src="assets/logos/ref-vfb.png" alt="VfB Lübeck" width="200" height="200"></div><div><img src="assets/logos/ref-easyfitness.png" alt="EasyFitness" width="640" height="178"></div><div><img src="assets/logos/ref-gogroon.png" alt="GO GRØØN" width="640" height="170"></div><div><img src="assets/logos/ref-it4b.png" alt="IT4B Digital Summit" width="640" height="64"></div><div><img src="assets/logos/ref-witzleben.png" alt="Jan von Witzleben" width="329" height="240"></div><div><img src="assets/logos/ref-kitzmann.png" alt="Kitzmann" width="640" height="208"></div><div><img src="assets/logos/ref-lachclash.png" alt="Lach Clash" width="239" height="240"></div><div><img src="assets/logos/ref-thomar.png" alt="ThoMar" width="324" height="215"></div><div><img src="assets/logos/ref-praktikum-hansebelt.png" alt="Praktikum HanseBelt" width="366" height="240"></div><div><img src="assets/logos/ref-thluebeck.png" alt="TH Lübeck" width="474" height="165"></div><div><img src="assets/logos/ref-egoh.png" alt="EGOH" width="640" height="200"></div><div><img src="assets/logos/ref-geesthacht.png" alt="Stadtwerke Geesthacht" width="528" height="240"></div><div><img src="assets/logos/ref-digitalfueralle.png" alt="Digital für alle" width="440" height="240"></div><div><img src="assets/logos/ref-rotary.png" alt="Rotary Club" width="638" height="240"></div><div><img src="assets/logos/ref-k2konzept.png" alt="K2Konzept" width="640" height="79"></div><div><img src="assets/logos/ref-energiecluster.png" alt="Energiecluster" width="640" height="127"></div><div><img src="assets/logos/ref-hdd.png" alt="Haus des Döners" width="640" height="178"></div><div><img src="assets/logos/ref-sprungtuch.png" alt="Sprungtuch" width="239" height="240"></div><div><img src="assets/logos/ref-tq.png" alt="TQ" width="240" height="240"></div><div><img src="assets/logos/ref-css.png" alt="Change School Summit" width="464" height="240"></div><div><img src="assets/logos/ref-hansefriseur.png" alt="HanseFriseur" width="232" height="240"></div><div><img src="assets/logos/ref-epunkt.png" alt="Forum Ehrenamt" width="134" height="47"></div><div><img src="assets/logos/ref-vfl.png" alt="VfL Lübeck-Schwartau" width="197" height="240"></div></div>
     <div class="preise"><span class="label">Preise &amp; Nominierungen</span><div class="preis-reihe"><span class="preis"><b>Existenzgründerpreis</b><img src="assets/logos/ref-lnpreis.png" alt=""></span><span class="preis"><b>Gründerpreis der Sparkasse zu Lübeck</b><img src="assets/logos/ref-sparkasse.png" alt=""></span><span class="preis"><b>Social Hackathon</b><img src="assets/logos/ref-socialhackathon.png" alt=""></span><span class="preis"><b>Überflieger Wettbewerb</b><img src="assets/logos/ref-startupsh.png" alt=""></span></div></div>
   </div>
 </section>
 
-<!-- ============ 4: TEAM ============ -->
+<!-- ============ 9: DIE ANFÄNGE ============ -->
 <section data-stimmung="neutral">
-  <div class="slide team rollbar" data-prevent-swipe>
-    <div class="seite service">
-  <p class="seiten-titel">„KI &amp; Daten für Ihre Firma nutzen“</p>
-  <figure class="person service gross">
-  <div class="rund"><img src="assets/team/eddie.png" alt="Eddie" width="720" height="720"></div>
-  <figcaption><b>Eddie</b><span>Head of AI-Services</span></figcaption>
-</figure>
-  <div class="reihe"><figure class="person service">
-  <div class="rund"><img src="assets/team/chakira.png" alt="Chakira" width="720" height="720"></div>
-  <figcaption><b>Chakira</b><span>AI Content Creatorin</span></figcaption>
-</figure><figure class="person service">
-  <div class="rund"><img src="assets/team/sohal.png" alt="Sohal" width="720" height="720"></div>
-  <figcaption><b>Sohal</b><span>AI Network Expertin</span></figcaption>
-</figure><figure class="person service">
-  <div class="rund"><img src="assets/team/jorge.png" alt="Jorge" width="720" height="720"></div>
-  <figcaption><b>Jorge</b><span>Data Scientist</span></figcaption>
-</figure></div>
-  <ul class="punkte"><li>Fachkräftesicherung (+2000 Bewerbungen allein in 2025)</li><li>Kundengewinnung (wöchentliche Neukundengespräche)</li><li>Digitale Sichtbarkeit (Tausende Follower aufgebaut)</li><li>Zielgruppenanalysen mit Millionen von Datenpunkten</li><li>Schulungen, Workshops und Webinare für Ihr Team</li><li>Websites, Werbekampagnen, Content und vieles mehr</li></ul>
-</div>
-    <div class="mitte">
-      <figure class="person gf gross">
-  <div class="rund"><img src="assets/team/emre.png" alt="Emre" width="720" height="720"></div>
-  <figcaption><b>Emre</b><span>Geschäftsführer</span></figcaption>
-</figure>
-    </div>
-    <div class="seite software">
-  <p class="seiten-titel">„KI in Ihrer Firma implementieren“</p>
-  <figure class="person software gross">
-  <div class="rund"><img src="assets/team/dom.png" alt="Dom" width="720" height="720"></div>
-  <figcaption><b>Dom</b><span>Head of AI-Software</span></figcaption>
-</figure>
-  <div class="reihe"><figure class="person software">
-  <div class="rund"><img src="assets/team/mats.png" alt="Mats" width="720" height="720"></div>
-  <figcaption><b>Mats</b><span>Frontend Entwickler</span></figcaption>
-</figure><figure class="person software">
-  <div class="rund"><img src="assets/team/saroj.png" alt="Saroj" width="720" height="720"></div>
-  <figcaption><b>Saroj</b><span>Backend Entwickler</span></figcaption>
-</figure><figure class="person software">
-  <div class="rund"><img src="assets/team/nadira.png" alt="Nadira" width="720" height="720"></div>
-  <figcaption><b>Nadira</b><span>AI und Software Engineer</span></figcaption>
-</figure></div>
-  <ul class="punkte"><li>KI aus Deutschland, für Deutschland</li><li>Datenschutzkonforme KI</li><li>Telefon-KI: rund um die Uhr erreichbar für Ihre Kunden</li><li>Website Chatbots für Ihre Kunden</li><li>Schnittstellen zu all Ihren Tools</li><li>KI-Workflows in Ihrer Firma implementieren</li></ul>
-</div>
-  </div>
+  <div class="band"><img src="assets/fotos/start-1.jpg" alt="" loading="lazy"><img src="assets/fotos/start-2.jpg" alt="" loading="lazy"><img src="assets/fotos/start-3.jpg" alt="" loading="lazy"><img src="assets/fotos/start-4.jpg" alt="" loading="lazy"><img src="assets/fotos/start-5.jpg" alt="" loading="lazy"></div>
 </section>
 
-<!-- ============ 5: BEDIENEN, KOMMUNIZIEREN, BEGEGNEN ============ -->
-<section class="f-rot" data-stimmung="rot">
+<!-- ============ 10: EHRLICH ============ -->
+<section data-stimmung="neutral">
   <div class="slide">
-    <div class="dreischritt"><p class="fragment"><span>Wir</span><span class="schimmer">bedienten</span><span>Technologie.</span></p><p class="fragment"><span>Wir</span><span class="schimmer">kommunizierten</span><span>mit Technologie.</span></p><p class="fragment"><span>Jetzt</span><span class="schimmer">begegnen</span><span>wir Technologie.</span></p></div>
+    <h2 class="headline" style="font-size:68px;white-space:nowrap;">Wir sind ehrlich zueinander… <span class="schimmer">ich fange an.</span></h2>
+    <div class="privat"><img src="assets/fotos/privat-1.jpg" alt="" loading="lazy"><img src="assets/fotos/privat-5.jpg" alt="" loading="lazy"><img src="assets/fotos/privat-4.jpg" alt="" loading="lazy"><img src="assets/fotos/privat-2.jpg" alt="" loading="lazy"><img src="assets/fotos/privat-3.jpg" alt="" loading="lazy"></div>
   </div>
 </section>
 
-<!-- ============ 6: ZEITSTRAHL ============ -->
+<!-- ============ 11: WAS IST KI? ============ -->
+<section class="f-dblau" data-stimmung="dblau">
+  <svg class="kunst" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs><filter id="gl-db" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="22"/></filter>
+  <radialGradient id="vl-db" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#3D6BFF"/><stop offset="1" stop-color="#0B1E8A"/></radialGradient></defs>
+  <g filter="url(#gl-db)" opacity=".6"><rect width="1920" height="1080" fill="none" stroke="none"/><circle cx="1500" cy="540" r="250" fill="none" stroke="#2F5BFF" stroke-width="14"/><circle cx="1130" cy="250" r="96" fill="none" stroke="#2F5BFF" stroke-width="14"/><circle cx="1800" cy="190" r="70" fill="none" stroke="#2F5BFF" stroke-width="14"/><circle cx="1790" cy="900" r="110" fill="none" stroke="#2F5BFF" stroke-width="14"/><circle cx="1120" cy="880" r="74" fill="none" stroke="#2F5BFF" stroke-width="14"/></g><circle cx="1500" cy="540" r="250" fill="url(#vl-db)" opacity="0.34"/><circle cx="1130" cy="250" r="96" fill="url(#vl-db)" opacity="0.26"/><circle cx="1800" cy="190" r="70" fill="url(#vl-db)" opacity="0.3"/><circle cx="1790" cy="900" r="110" fill="url(#vl-db)" opacity="0.24"/><circle cx="1120" cy="880" r="74" fill="url(#vl-db)" opacity="0.28"/><circle cx="870" cy="140" r="40" fill="url(#vl-db)" opacity="0.22"/><circle cx="250" cy="930" r="56" fill="url(#vl-db)" opacity="0.18"/><circle cx="140" cy="160" r="34" fill="url(#vl-db)" opacity="0.18"/><circle cx="1500" cy="540" r="250" fill="none" stroke="#5B8CFF" stroke-width="2.5" opacity=".85"/><circle cx="1130" cy="250" r="96" fill="none" stroke="#5B8CFF" stroke-width="2.5" opacity=".85"/><circle cx="1800" cy="190" r="70" fill="none" stroke="#5B8CFF" stroke-width="2.5" opacity=".85"/><circle cx="1790" cy="900" r="110" fill="none" stroke="#5B8CFF" stroke-width="2.5" opacity=".85"/><circle cx="1120" cy="880" r="74" fill="none" stroke="#5B8CFF" stroke-width="2.5" opacity=".85"/><circle cx="870" cy="140" r="40" fill="none" stroke="#5B8CFF" stroke-width="2.5" opacity=".85"/><circle cx="250" cy="930" r="56" fill="none" stroke="#5B8CFF" stroke-width="2.5" opacity=".85"/><circle cx="140" cy="160" r="34" fill="none" stroke="#5B8CFF" stroke-width="2.5" opacity=".85"/>
+</svg>
+  <div class="slide uebergang">
+    <h2 class="hero gesetzt">Was ist <span class="schimmer">KI?</span></h2>
+  </div>
+</section>
+
+<!-- ============ 12: DEFINITION ============ -->
+<section class="f-dblau" data-stimmung="dblau">
+  <div class="slide" style="justify-content:center;">
+    <h2 class="headline" style="font-size:104px;">Künstliche <span class="schimmer">Intelligenz</span></h2>
+    <p class="definition">beschreibt Systeme, die menschliche Denkprozesse wie Lernen, Entscheiden oder Problemlösen automatisiert nachahmen können.</p>
+  </div>
+</section>
+
+<!-- ============ 13: ZEITSTRAHL ============ -->
 <section data-stimmung="neutral">
   <div class="zs-buehne" style="--linie:52.3%;">
     <img src="assets/illu/zeitstrahl.jpg" alt="Von Faustkeil und Feuer bis KI" width="1344" height="752">
-    <div class="zs-punkt" style="left:6.6%;"><b><i class="nur-quer">Faustkeil &amp; </i>Feuer</b><span>vor 2,5 Mio. Jahren</span></div><div class="zs-punkt" style="left:18.6%;"><b>Schrift</b><span>um 3000 v. Chr.</span></div><div class="zs-punkt" style="left:30.6%;"><b>Buchdruck</b><span>um 1450</span></div><div class="zs-punkt" style="left:43.2%;"><b>Dampfmaschine</b><span>um 1760</span></div><div class="zs-punkt" style="left:56.3%;"><b>Computer</b><span>ab 1940</span></div><div class="zs-punkt" style="left:68.5%;"><b>Smartphone</b><span>2007</span></div><div class="zs-punkt" style="left:80.3%;"><b>Avatare</b><span>ab 2020</span></div><div class="zs-punkt" style="left:92.7%;"><b>KI</b><span>heute</span></div>
+    <div class="zs-punkt" style="left:6.6%;"><b><i class="nur-quer">Faustkeil &amp; </i>Feuer</b><span>ab 2,5 Mio. v. Chr.</span></div><div class="zs-punkt" style="left:18.6%;"><b>Schrift</b><span>ca. 3.000 v. Chr.</span></div><div class="zs-punkt" style="left:30.6%;"><b>Buchdruck</b><span>1450 n. Chr.</span></div><div class="zs-punkt" style="left:43.2%;"><b>Dampfmaschine</b><span>ca. 1760–1830</span></div><div class="zs-punkt" style="left:56.3%;"><b>Computer</b><span>ab 1940</span></div><div class="zs-punkt" style="left:68.5%;"><b>Smartphone</b><span>ab 2007</span></div><div class="zs-punkt" style="left:80.3%;"><b>Avatare</b><span>2024+</span></div><div class="zs-punkt" style="left:92.7%;"><b>KI</b><span>heute</span></div>
   </div>
   <div class="slide zeitstrahl">
-    <h2 class="headline">Von der Steinzeit <span class="schimmer">bis heute.</span></h2>
+    <h2 class="headline">Technologie im <span class="schimmer">Wandel.</span></h2>
   </div>
 </section>
 
-<!-- ============ 7: KURVE ============ -->
+<!-- ============ 14: KURVE ============ -->
 <section class="f-dblau" data-stimmung="dblau">
   <div class="slide">
     <h2 class="headline">Moore's Law gegen <span class="schimmer">KI.</span></h2>
@@ -500,28 +669,115 @@ body.hochkant .hero.frage { font-size: 80px; }
   </div>
 </section>
 
-<!-- ============ 8: DIE FRAGE ============ -->
-<section class="f-lila" data-stimmung="lila">
-  <svg class="kunst" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-  <defs><filter id="gl-lila" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="34"/></filter></defs>
-  <g filter="url(#gl-lila)" opacity=".55"><rect width="1920" height="1080" fill="none" stroke="none"/><circle cx="1260" cy="560" r="330" fill="none" stroke="#7C3AED" stroke-width="16"/><circle cx="1570" cy="560" r="330" fill="none" stroke="#C77DFF" stroke-width="16"/></g>
-  <g style="mix-blend-mode:screen"><circle cx="1260" cy="560" r="330" fill="#6D28D9" opacity=".42"/><circle cx="1570" cy="560" r="330" fill="#B565F2" opacity=".38"/></g>
-  <circle cx="1260" cy="560" r="330" fill="none" stroke="#9F67FF" stroke-width="2.5" opacity=".9"/><circle cx="1570" cy="560" r="330" fill="none" stroke="#DDA8FF" stroke-width="2.5" opacity=".9"/>
-</svg>
-  <div class="slide uebergang">
-    <h2 class="hero frage">Was passiert, wenn Intelligenz nicht mehr nur <span class="schimmer">menschlich</span> ist?</h2>
+<!-- ============ 15: BEDIENEN, KOMMUNIZIEREN, BEGEGNEN ============ -->
+<section class="f-rot" data-stimmung="rot">
+  <div class="slide">
+    <div class="dreischritt"><p class="fragment"><span>Wir</span><span class="schimmer">bedienten</span><span>Technologie.</span></p><p class="fragment"><span>Wir</span><span class="schimmer">kommunizierten</span><span>mit Technologie.</span></p><p class="fragment"><span>Jetzt</span><span class="schimmer">begegnen</span><span>wir Technologie.</span></p></div>
   </div>
 </section>
 
-<!-- ============ 9: ENDE ============ -->
+<!-- ============ 16: DIE BRÜCKE ============ -->
+<section data-chrome="aus" data-stimmung="neutral">
+  <img class="voll" src="assets/robo/bruecke.jpg" alt="">
+  <div class="schleier-oben"></div>
+  <div class="slide">
+    <h2 class="hero schatten" style="font-size:118px;text-align:center;">Die Brücke.</h2>
+    <div class="ufer"><p>Unsere Leute nutzen sie nicht.</p><p>Unsere Leute nutzen sie.</p></div>
+    <span class="bild-quelle">Bild mit KI erstellt</span>
+  </div>
+</section>
+
+<!-- ============ 17: WIR FRAGEN SCHLECHT ============ -->
+<section data-chrome="aus" data-stimmung="neutral">
+  <img class="voll" src="assets/robo/holstentor.jpg" alt="">
+  <div class="schleier-mitte"></div>
+  <div class="slide mittig" style="justify-content:flex-start;padding-top:96px;">
+    <h2 class="hero schatten" style="font-size:96px;margin-bottom:14px;">Die KI liefert nicht schlecht.</h2>
+    <p class="hero schimmer" style="font-size:126px;margin:0;">Wir fragen schlecht.</p>
+    <span class="bild-quelle">Bild mit KI erstellt</span>
+  </div>
+</section>
+
+<!-- ============ 18: PIZZA ============ -->
+<section data-stimmung="neutral">
+  <div class="slide">
+    <div class="pizza">
+      <div>
+        <p class="label">Ihr sagt</p>
+        <p class="ansage kurz">„Pizza.“</p>
+        <img src="assets/robo/pizza-schlecht.png" alt="">
+        <p class="ergebnis">Ihr bekommt irgendwas.</p>
+      </div>
+      <div class="trennlinie"></div>
+      <div>
+        <p class="label gut">Oder ihr sagt</p>
+        <p class="ansage lang">„Eine Salami, 32er, dünner Boden, extra Käse, in einer halben Stunde, Marlesgrube&nbsp;1.“</p>
+        <img src="assets/robo/pizza-gut.png" alt="">
+        <p class="ergebnis gut">Ihr bekommt, was ihr wolltet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 19: BLACK BOX ============ -->
+<section class="f-lila" data-stimmung="lila">
+  <div class="slide">
+    <div class="io">
+      <div class="io-seite"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4 4-6.5 8-6.5s7.2 2.5 8 6.5"/></svg><b>Input</b><span>Anfrage</span></div>
+      <svg class="bbox" viewBox="-230 -230 460 460" aria-hidden="true">
+  <path d="M0,-200 L173,-100 L173,100 L0,200 L-173,100 L-173,-100 Z M0,0 L0,200 M0,0 L173,-100 M0,0 L-173,-100" fill="rgba(193,93,230,.08)" stroke="#C77DFF" stroke-width="3" stroke-linejoin="round"/>
+  <g class="fragen" fill="#F4F6FF" font-family="var(--font)" font-weight="700" text-anchor="middle"><text x="-70" y="-40" font-size="70" transform="rotate(-12 -70 -40)">?</text><text x="10" y="-70" font-size="56" transform="rotate(8 10 -70)">?</text><text x="60" y="-10" font-size="80" transform="rotate(14 60 -10)">?</text><text x="-20" y="30" font-size="90" transform="rotate(-6 -20 30)">?</text><text x="-90" y="60" font-size="50" transform="rotate(10 -90 60)">?</text><text x="70" y="80" font-size="60" transform="rotate(-10 70 80)">?</text><text x="5" y="110" font-size="46" transform="rotate(4 5 110)">?</text></g>
+</svg>
+      <div class="io-seite"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.4A8.5 8.5 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg><b>Output</b><span>Antwort</span></div>
+    </div>
+    <p class="io-erklaerung">Ein System ist eine Black Box, wenn man nur Input und Output kennt, aber den inneren Mechanismus nicht nachvollziehen kann.</p>
+  </div>
+</section>
+
+<!-- ============ 20: CHECKLISTE ============ -->
+<section class="f-rot" data-stimmung="rot">
+  <div class="slide" style="justify-content:center;">
+    <h2 class="headline" style="text-align:center;font-size:96px;">Was darf nie in die <span class="schimmer">KI?</span></h2>
+    <div class="verbote"><div><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2.2"/><path d="M5 17c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4M14 10h5M14 14h4"/></svg><p>Name</p></div><div><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg><p>Adresse</p></div><div><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><p>Telefonnummer</p></div><div><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-9 5.7a2 2 0 0 1-2 0L2 7"/></svg><p>Mailadresse</p></div><div><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></svg><p>Nummern mit Personenbezug</p></div><div><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M4 14h9M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2"/></svg><p>Konkrete Beträge</p></div><div><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><p>Private Details</p></div></div>
+  </div>
+</section>
+
+<!-- ============ 21: HARVARD x BCG ============ -->
+<section class="f-dblau" data-stimmung="dblau">
+  <div class="slide">
+    <div class="studie">
+      <p class="label" style="font-size:26px;">Harvard × BCG · 758 Berater · mit KI vs. ohne</p>
+      <p class="riesig schimmer">+40 %<small>Qualität</small></p>
+      <div class="nebenzahlen"><span><b>25 %</b> schneller</span><span><b>12 %</b> mehr geschafft</span></div>
+      <div class="haelften fragment"><span>Schwächere Hälfte: <b>+43 %</b></span><span>Stärkere Hälfte: <b>+17 %</b></span></div>
+      <p class="training fragment">Mit Training: noch besser. <span class="schimmer">Genau das bekommt ihr heute.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 22: NORBERT WIENER ============ -->
+<section class="f-lila" data-stimmung="lila">
+  <div class="slide mittig">
+    <p class="zitat">„Wir formen unsere Werkzeuge, und danach <span class="schimmer">formen sie uns.</span>“</p>
+    <p class="quelle">Norbert Wiener, Vater der Kybernetik</p>
+  </div>
+</section>
+
+<!-- ============ 23: HÄNDE · DAMALS UND HEUTE ============ -->
+<section data-stimmung="neutral">
+  <div class="slide" style="padding-top:110px;padding-bottom:70px;">
+    <div class="trip"><div><img src="assets/illu/damals-waschbrett.jpg" alt="" loading="lazy"><span class="wann">Damals</span></div><div><img src="assets/illu/damals-feuer.jpg" alt="" loading="lazy"><span class="wann">Damals</span></div><div><img src="assets/illu/damals-rechnungen.jpg" alt="" loading="lazy"><span class="wann">Damals</span></div><div class="heute fragment" data-fragment-index="1"><img src="assets/illu/heute-kleid.jpg" alt="" loading="lazy"><span class="wann">Heute</span></div><div class="heute fragment" data-fragment-index="1"><img src="assets/illu/heute-teller.jpg" alt="" loading="lazy"><span class="wann">Heute</span></div><div class="heute fragment" data-fragment-index="1"><img src="assets/illu/heute-handschlag.jpg" alt="" loading="lazy"><span class="wann">Heute</span></div></div>
+    <p class="bestimmung fragment" data-fragment-index="1">Unsere Bestimmung ist <span class="schimmer">größer.</span></p>
+  </div>
+</section>
+
+<!-- ============ 24: ENDE ============ -->
 <section class="f-hblau" data-chrome="zahl" data-stimmung="hblau">
-  <div class="kunst kante" aria-hidden="true">
-  <div style="position:absolute;inset:0;background:radial-gradient(circle at 1640px 540px, #030309 0, #030309 637px, transparent 640px);"></div>
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom, transparent 3%, #A8E4FF 18%, #7FD4FF 50%, #4FC3FF 82%, transparent 97%);-webkit-mask-image:radial-gradient(circle at 1640px 540px, transparent 0, transparent 637px, rgba(0,0,0,.95) 639px, #000 641px, rgba(0,0,0,.62) 645px, rgba(0,0,0,.34) 664px, rgba(0,0,0,.16) 710px, rgba(0,0,0,.06) 790px, transparent 900px);mask-image:radial-gradient(circle at 1640px 540px, transparent 0, transparent 637px, rgba(0,0,0,.95) 639px, #000 641px, rgba(0,0,0,.62) 645px, rgba(0,0,0,.34) 664px, rgba(0,0,0,.16) 710px, rgba(0,0,0,.06) 790px, transparent 900px);"></div>
-</div>
-  <div class="slide ende">
-    <h2 class="hero gesetzt">Vielen <span class="schimmer">Dank.</span></h2>
-    <div class="kontakt"><img src="assets/logos/edge-logo-white.png" alt="EDGE Digital"><p>emre@edge-digital.com<br>0157 72461737</p></div>
+  <img class="ende-foto" src="assets/fotos/team-db.jpg" alt="Das EDGE Team">
+  <div class="slide schluss">
+    <p class="label" style="font-size:26px;margin-bottom:24px;">Und jetzt…</p>
+    <h2 class="hero gesetzt">Einfach nur noch ausprobieren, <span class="schimmer" style="white-space:nowrap;">ohne Stop-Loss.</span></h2>
+    <div class="kontakt"><img src="assets/logos/edge-logo-white.png" alt="EDGE Digital"><p><b>Künstliche Intelligenz. Echte Wirkung.</b><br>Marlesgrube 1, 23552 Lübeck</p></div>
   </div>
 </section>
 
