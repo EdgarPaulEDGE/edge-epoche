@@ -292,6 +292,9 @@ body[data-stimmung="aus"] #kosmos, body[data-stimmung="aus"] .stimmung { opacity
 .voll { position: absolute; inset: 0; width: 1920px; height: var(--buehne-h); object-fit: cover; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
 .schleier-unten { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(3,3,9,.92) 0%, rgba(3,3,9,.55) 30%, rgba(3,3,9,0) 58%); }
 .schleier-mitte { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3,3,9,.82) 0%, rgba(3,3,9,.45) 32%, rgba(3,3,9,0) 55%); }
+/* Holstentor: unten kräftig dunkel für den Text, nach oben auslaufend, darüber eine leichte Abdunklung fürs ganze Bild */
+.schleier-holstentor { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(3,3,9,.94) 0%, rgba(3,3,9,.78) 22%, rgba(3,3,9,.35) 48%, rgba(3,3,9,.28) 100%); }
+body.hochkant .schleier-holstentor { background: linear-gradient(0deg, rgba(3,3,9,.95) 0%, rgba(3,3,9,.8) 30%, rgba(3,3,9,.3) 60%, rgba(3,3,9,.25) 100%); }
 .schleier-oben { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3,3,9,.78) 0%, rgba(3,3,9,.15) 34%, rgba(3,3,9,0) 55%, rgba(3,3,9,.72) 100%); }
 .bild-quelle { position: absolute; right: 40px; bottom: 26px; font-size: 16px; color: rgba(244,246,255,.4); letter-spacing: .06em; }
 
@@ -492,8 +495,9 @@ def bau():
     logos = json.loads((ORDNER / "assets/logos/referenzen.json").read_text(encoding="utf8"))
     # Deutsche Bank sitzt im Publikum: ihr Logo gehört hier nicht auf die Referenzwand
     logos = [l for l in logos if l["id"] != "deutschebank"]
-    gross = [l for l in logos if l["klasse"] == "g"]
-    klein = [l for l in logos if l["klasse"] == "k"]
+    # Die Buhck Gruppe rückt in die Lücke, die das Deutsche-Bank-Logo im großen Raster hinterlässt (rechts, dritte Reihe)
+    gross = [l for l in logos if l["klasse"] == "g"] + [l for l in logos if l["id"] == "buhck"]
+    klein = [l for l in logos if l["klasse"] == "k" and l["id"] != "buhck"]
     logo_img = lambda l: f'<div><img src="assets/logos/ref-{l["id"]}.png" alt="{l["name"]}" width="{l["w"]}" height="{l["h"]}"></div>'
     spalten = 10 if len(klein) <= 40 else (11 if len(klein) <= 44 else 12)
     preis_chips = "".join(
@@ -656,10 +660,10 @@ def bau():
 <!-- ============ 17: WIR FRAGEN SCHLECHT ============ -->
 <section data-chrome="aus" data-stimmung="neutral">
   <img class="voll" src="assets/robo/holstentor.jpg" alt="">
-  <div class="schleier-mitte"></div>
-  <div class="slide mittig" style="justify-content:flex-start;padding-top:96px;">
-    <h2 class="hero schatten" style="font-size:96px;margin-bottom:14px;">Die KI liefert nicht schlecht.</h2>
-    <p class="hero schimmer" style="font-size:126px;margin:0;">Wir fragen schlecht.</p>
+  <div class="schleier-holstentor"></div>
+  <div class="slide unten" style="align-items:flex-end;text-align:right;padding-bottom:110px;">
+    <h2 class="hero schatten" style="font-size:76px;margin-bottom:8px;white-space:nowrap;">Die KI liefert nicht schlecht.</h2>
+    <p class="hero schimmer" style="font-size:100px;margin:0;white-space:nowrap;">Wir fragen schlecht.</p>
     <span class="bild-quelle">Bild mit KI erstellt</span>
   </div>
 </section>
