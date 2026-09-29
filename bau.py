@@ -184,7 +184,7 @@ def team_seite(klasse, titel, kopf, leute, punkte):
 # ----------------------------------------------------------------------------
 
 # (Beschriftung, Zeit, Mitte der Insel im Bild in Prozent der Breite)
-ZEITSTRAHL = [("Faustkeil &amp; Feuer", "vor 2,5 Mio. Jahren", 6.6), ("Schrift", "um 3000 v. Chr.", 18.6), ("Buchdruck", "um 1450", 30.6),
+ZEITSTRAHL = [('<i class="nur-quer">Faustkeil &amp; </i>Feuer', "vor 2,5 Mio. Jahren", 6.6), ("Schrift", "um 3000 v. Chr.", 18.6), ("Buchdruck", "um 1450", 30.6),
               ("Dampfmaschine", "um 1760", 43.2), ("Computer", "ab 1940", 56.3), ("Smartphone", "2007", 68.5),
               ("Avatare", "ab 2020", 80.3), ("KI", "heute", 92.7)]
 ZEITSTRAHL_LINIE = 52.3  # Höhe der leuchtenden Linie im Bild, in Prozent
@@ -209,7 +209,7 @@ def kurve():
   <path class="linie moore" pathLength="1" d="{linie(1.5, 10)}" fill="none" stroke="rgba(244,246,255,.55)" stroke-width="5" stroke-linecap="round"/>
   <path class="linie ki" pathLength="1" d="{linie(0.5, ki_ende)}" fill="none" stroke="url(#vl-ki)" stroke-width="8" stroke-linecap="round"/>
   <text class="kurven-name ki" x="{px(ki_ende) + 30:.0f}" y="{y1 + 20}">KI: alle 6 Monate doppelt</text>
-  <text class="kurven-name moore" x="{x1}" y="{py(14):.0f}" text-anchor="end">Moore's Law: alle 18 Monate doppelt</text>
+  <text class="kurven-name moore" x="{x1}" y="{py(3):.0f}" text-anchor="end">Moore's Law: alle 18 Monate doppelt</text>
 </svg>'''
 
 
@@ -224,12 +224,13 @@ EXTRA_STIL = """
 .dreischritt p { margin: 0; font-size: 58px; line-height: 1.12; font-weight: 700; text-transform: uppercase; letter-spacing: -.015em; white-space: nowrap; }
 .dreischritt p span { display: block; }
 
-.zs-buehne { position: absolute; left: 150px; top: 150px; width: 1620px; aspect-ratio: 1344 / 752; }
+.zs-buehne { position: absolute; left: 150px; top: calc(150px + var(--extra)); width: 1620px; aspect-ratio: 1344 / 752; }
 .zs-buehne img { --rand-x: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%); --rand-y: linear-gradient(180deg, transparent 0, #000 22%, #000 80%, transparent 100%);
   -webkit-mask-image: var(--rand-x), var(--rand-y); -webkit-mask-composite: source-in; mask-image: var(--rand-x), var(--rand-y); mask-composite: intersect; }
 .zs-buehne img { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; margin: 0 !important; max-width: none !important; max-height: none !important; }
 .zs-punkt { position: absolute; top: calc(var(--linie) + 9%); transform: translateX(-50%); text-align: center; white-space: nowrap; }
 .zs-punkt b { display: block; font-size: 21px; font-weight: 700; letter-spacing: .01em; text-transform: uppercase; }
+.zs-punkt i { font-style: normal; }
 .zs-punkt span { display: block; font-size: 19px; color: var(--w-45); margin-top: 6px; }
 .slide.zeitstrahl { justify-content: flex-start; }
 .slide.zeitstrahl .headline { position: relative; }
@@ -257,7 +258,9 @@ body.hochkant .titel-duo { flex-direction: column; gap: 40px; align-items: flex-
 body.hochkant .titel-duo .titel-logo { width: 620px; }
 body.hochkant .dreischritt { grid-template-columns: 1fr; gap: 90px; }
 body.hochkant .dreischritt p { font-size: 70px; white-space: normal; }
-body.hochkant .zs-buehne { width: 1080px; left: 0; top: 640px; }
+body.hochkant .zs-buehne { width: 980px; left: 50px; top: 640px; }
+body.hochkant .nur-quer { display: none; }
+body.hochkant .zeitstrahl .headline .schimmer { display: block; }
 body.hochkant .zs-punkt b { font-size: 26px; letter-spacing: 0; }
 body.hochkant .zs-punkt span { display: none; }
 body.hochkant .zs-punkt:nth-child(odd of .zs-punkt) { top: calc(var(--linie) - 22%); }

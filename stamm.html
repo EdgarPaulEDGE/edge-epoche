@@ -28,6 +28,8 @@
 @font-face { font-family: "Avenir Next LT"; src: url("assets/fonts/AvenirNext-Bold.ttf") format("truetype"); font-weight: 700; }
 
 :root {
+  /* Bühnenhöhe folgt dem Bildschirm: 1080 bei 16:9, 1200 bei 16:10 (MacBook), bis 1440 bei 4:3. Setzt das Skript unten. */
+  --buehne-h: 1080px; --extra: 0px;
   --raum: #030309;
   --weiss: #F4F6FF;
   --w-70: rgba(244, 246, 255, 0.70);
@@ -79,7 +81,7 @@ body[data-stimmung="lila"] .st-lila, body[data-stimmung="dblau"] .st-dblau, body
 /* ---------- Reveal-Grundgerüst ---------- */
 .reveal { font-family: var(--font); font-size: 30px; color: var(--weiss); }
 .reveal .slides { text-align: left; }
-.reveal .slides > section { padding: 0; height: 1080px; }
+.reveal .slides > section { padding: 0; height: var(--buehne-h); }
 .reveal .progress { color: var(--weiss); height: 4px; }
 .reveal .controls { color: var(--w-45); }
 
@@ -87,9 +89,13 @@ body[data-stimmung="lila"] .st-lila, body[data-stimmung="dblau"] .st-dblau, body
   width: 1920px; height: 1080px; position: relative;
   display: flex !important; flex-direction: column;
   padding: 132px 130px 96px;
+  /* Das 16:9 Layout sitzt mittig auf der höheren Bühne, darüber und darunter läuft nur der Hintergrund weiter */
+  margin-top: var(--extra);
 }
 /* Formen liegen hinter dem Text, innerhalb der Folie */
-.kunst { position: absolute; inset: 0; width: 1920px; height: 1080px; pointer-events: none; }
+.kunst { position: absolute; inset: 0; width: 1920px; height: var(--buehne-h); pointer-events: none; }
+/* Die Kante ist auf 1080 gebaut und bleibt mittig, ihr Schein läuft oben und unten ohnehin ins Nichts aus */
+.kunst.kante { height: 1080px; top: var(--extra); }
 
 body.standbild *, body.standbild *::before, body.standbild *::after { animation-duration: .001s !important; animation-delay: 0s !important; transition: none !important; }
 body.standbild .reveal .controls, body.standbild .reveal .progress { display: none !important; }
@@ -147,7 +153,7 @@ h1, h2, h3 { margin: 0; font-family: var(--font); }
 .kr-tags { margin: auto 0 0; padding-top: 14px; font-size: 20px; color: var(--w-45); white-space: nowrap; }
 
 /* ---------- Folie 5: Collage, randlos über die ganze Folie ---------- */
-.collage { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
+.collage { position: absolute; inset: 0; width: 1920px; height: var(--buehne-h); object-fit: cover; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
 
 /* Dunkler Schleier nur in den linken Ecken: dort sitzen Logo und Seitenzahl, das Foto darunter ist teils hell */
 .collage-schleier { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(420px 190px at 0 0, rgba(3,3,9,.78), transparent 100%), radial-gradient(240px 150px at 0 100%, rgba(3,3,9,.78), transparent 100%); }
@@ -347,17 +353,33 @@ function hochkantSetzen() {
   document.body.classList.toggle('hochkant', h);
   /* Die Formen sitzen rechts im Bild: hochkant wird deshalb der rechte Teil gezeigt, nicht die Mitte */
   document.querySelectorAll('svg.kunst').forEach(function (s) { s.setAttribute('preserveAspectRatio', h ? 'xMaxYMid slice' : 'xMidYMid slice'); });
-  if (window.Reveal && Reveal.isReady && Reveal.isReady()) Reveal.configure({ width: h ? 1080 : 1920, height: h ? 1920 : 1080 });
+  buehneSetzen();
+}
+/* Quer: die Bühne übernimmt das Seitenverhältnis des Bildschirms, damit im Vollbild nichts abgeschnitten
+   wirkt (MacBook 16:10 hatte sonst oben und unten Balken und harte Bildkanten). Breite bleibt 1920. */
+function buehnenHoehe() {
+  if (istHochkant()) return 1920;
+  return Math.max(1080, Math.min(1440, Math.round(1920 * window.innerHeight / window.innerWidth)));
+}
+function buehneSetzen() {
+  var h = buehnenHoehe(), quer = !istHochkant(), w = document.documentElement.style;
+  w.setProperty('--buehne-h', quer ? h + 'px' : '1920px');
+  w.setProperty('--extra', quer ? Math.round((h - 1080) / 2) + 'px' : '0px');
+  if (window.Reveal && Reveal.isReady && Reveal.isReady()) {
+    var c = Reveal.getConfig();
+    if (c.width !== (quer ? 1920 : 1080) || c.height !== h) Reveal.configure({ width: quer ? 1920 : 1080, height: h });
+  }
 }
 hochkantSetzen();
 window.addEventListener('resize', hochkantSetzen);
+window.addEventListener('resize', buehneSetzen);
 
 Reveal.initialize({
   hash: true, history: true,
   transition: 'fade', transitionSpeed: 'default', backgroundTransition: 'none',
   controls: true, controlsLayout: 'bottom-right', controlsTutorial: false,
   progress: true, slideNumber: false,
-  center: false, width: istHochkant() ? 1080 : 1920, height: istHochkant() ? 1920 : 1080, margin: 0,
+  center: false, width: istHochkant() ? 1080 : 1920, height: buehnenHoehe(), margin: 0,
   /* Reveals eigener Scrollmodus für schmale Fenster bleibt aus: wir haben ein eigenes Hochkant Layout */
   view: null, scrollActivationWidth: 0,
   plugins: [RevealNotes]
@@ -395,7 +417,7 @@ function chromeAusrichten() {
   w.setProperty('--folie-links', Math.max(0, r.left) + 'px');
   w.setProperty('--folie-oben', Math.max(0, r.top) + 'px');
   w.setProperty('--folie-unten', Math.max(0, window.innerHeight - r.bottom) + 'px');
-  w.setProperty('--folie-skala', String(r.height / (document.body.classList.contains('hochkant') ? 1920 : 1080)));
+  w.setProperty('--folie-skala', String(r.height / buehnenHoehe()));
 }
 Reveal.on('ready', chromeAusrichten);
 Reveal.on('resize', chromeAusrichten);
