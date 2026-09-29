@@ -331,7 +331,7 @@ def bau():
 <!-- ============ 6: ZEITSTRAHL ============ -->
 <section data-stimmung="neutral">
   <div class="zs-buehne" style="--linie:{ZEITSTRAHL_LINIE}%;">
-    <img src="assets/illu/zeitstrahl.png" alt="Von Faustkeil und Feuer bis KI" width="1344" height="752">
+    <img src="assets/illu/zeitstrahl.jpg" alt="Von Faustkeil und Feuer bis KI" width="1344" height="752">
     {punkte}
   </div>
   <div class="slide zeitstrahl">
