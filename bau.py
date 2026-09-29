@@ -292,8 +292,8 @@ body[data-stimmung="aus"] #kosmos, body[data-stimmung="aus"] .stimmung { opacity
 .voll { position: absolute; inset: 0; width: 1920px; height: var(--buehne-h); object-fit: cover; display: block; margin: 0 !important; max-width: none !important; max-height: none !important; }
 .schleier-unten { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(3,3,9,.92) 0%, rgba(3,3,9,.55) 30%, rgba(3,3,9,0) 58%); }
 .schleier-mitte { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3,3,9,.82) 0%, rgba(3,3,9,.45) 32%, rgba(3,3,9,0) 55%); }
-/* Holstentor: unten kräftig dunkel für den Text, nach oben auslaufend, darüber eine leichte Abdunklung fürs ganze Bild */
-.schleier-holstentor { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(3,3,9,.94) 0%, rgba(3,3,9,.78) 22%, rgba(3,3,9,.35) 48%, rgba(3,3,9,.28) 100%); }
+/* Holstentor: unten schwarz, nach oben auslaufend bis unter den Titel, dazu eine leichte Abdunklung fürs ganze Bild */
+.schleier-holstentor { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(3,3,9,.96) 0%, rgba(3,3,9,.8) 22%, rgba(3,3,9,.5) 45%, rgba(3,3,9,.18) 68%, rgba(3,3,9,0) 72%), rgba(3,3,9,.28); }
 body.hochkant .schleier-holstentor { background: linear-gradient(0deg, rgba(3,3,9,.95) 0%, rgba(3,3,9,.8) 30%, rgba(3,3,9,.3) 60%, rgba(3,3,9,.25) 100%); }
 .schleier-oben { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3,3,9,.78) 0%, rgba(3,3,9,.15) 34%, rgba(3,3,9,0) 55%, rgba(3,3,9,.72) 100%); }
 .bild-quelle { position: absolute; right: 40px; bottom: 26px; font-size: 16px; color: rgba(244,246,255,.4); letter-spacing: .06em; }
@@ -661,9 +661,9 @@ def bau():
 <section data-chrome="aus" data-stimmung="neutral">
   <img class="voll" src="assets/robo/holstentor.jpg" alt="">
   <div class="schleier-holstentor"></div>
-  <div class="slide unten" style="align-items:flex-end;text-align:right;padding-bottom:110px;">
-    <h2 class="hero schatten" style="font-size:76px;margin-bottom:8px;white-space:nowrap;">Die KI liefert nicht schlecht.</h2>
-    <p class="hero schimmer" style="font-size:100px;margin:0;white-space:nowrap;">Wir fragen schlecht.</p>
+  <div class="slide mittig" style="justify-content:flex-start;padding-top:96px;">
+    <h2 class="hero schatten" style="font-size:96px;margin-bottom:14px;">Die KI liefert nicht schlecht.</h2>
+    <p class="hero schimmer" style="font-size:126px;margin:0;filter:drop-shadow(0 4px 24px rgba(3,3,9,.7));">Wir fragen schlecht.</p>
     <span class="bild-quelle">Bild mit KI erstellt</span>
   </div>
 </section>
